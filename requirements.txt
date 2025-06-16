@@ -1,0 +1,7 @@
+streamlit
+matplotlib
+streamlit_ace
+scikit-learn
+tensorflow>=2.16.1
+numpy>=1.26.0
+openai
