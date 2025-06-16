@@ -1,16 +1,26 @@
 import streamlit as st
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
+import matplotlib.font_manager as fm
 from sklearn.linear_model import LinearRegression
 from sklearn.preprocessing import PolynomialFeatures
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.optimizers import Adam
 import pandas as pd
-import matplotlib
 import re
+import os
 
-matplotlib.rc('font', family='Malgun Gothic')
+# 폰트 파일 절대 경로 설정 (중요!)
+font_path = os.path.join(os.path.dirname(__file__), "font/NanumGothic.ttf")
+
+# 시스템에 폰트 추가
+fm.fontManager.addfont(font_path)
+font_name = fm.FontProperties(fname=font_path).get_name()
+
+# 전역 폰트 설정 적용
+matplotlib.rcParams['font.family'] = font_name
 matplotlib.rcParams['axes.unicode_minus'] = False
 
 def show():
