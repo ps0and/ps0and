@@ -131,7 +131,7 @@ for i in range(1, 100):
         print(i+1)
         break
 """)
-    code_block_columns(2, "a=30\nr=-3\nseq=[a]\n# 여기에 for문 작성", prefix="d4_")
+    code_block_columns(2, "a=3\nr=2\nseq=[a]\n# 여기에 for문 작성", prefix="d4_")
     st.divider()
 
     st.markdown("##### 💻 :blue[[모둠 활동]] 나만의 등비수열 문제 만들기")
