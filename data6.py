@@ -2,6 +2,15 @@ import streamlit as st
 def show():
     st.header("🗓️ Day 6")
     st.subheader("인공지능의 이해")
+    st.write("AI는 어떻게 생각하는지 알아 봅시다.")
+    st.divider()
+    st.subheader("🎥 오늘의 수업 영상")
+    st.video("https://youtu.be/RYTRvvmHMfI")
+    st.subheader("📌 학습 목표")
+    st.write("""
+    - 수학적 사고와 인공지능적 사고의 차이를 설명할 수 있다.
+    - 회귀와 딥러닝의 기본 원리 및 학습 과정을 이해한다.
+    """)
     st.divider()
         # 📘 주제 1
     with st.expander("📘 주제 1: 수학적 사고 vs 인공지능적 사고", expanded=True):
@@ -143,6 +152,61 @@ def show():
         🎯 결국 두 방식은 상호 보완적이며,  
         **21세기 수학 교육에서는 이 두 접근을 모두 익히는 것이 중요**합니다.
         """)
+    st.divider()
+    st.markdown("##### 🌈 :rainbow[[수준별 문제]] AI 개념 확인")
 
+    ai_level = st.radio(
+        "난이도를 선택하세요!",
+        ("하", "중", "상"),
+        horizontal=True,
+        key="d6_ai_level"
+    )
 
+    if ai_level == "하":
+        q_title = "수학적 사고와 AI 사고의 차이"
+        q_question = "AI는 데이터를 통해 규칙을 ( )합니다. (빈칸에 들어갈 한 단어를 입력하세요)"
+        correct_word = "학습"
+        st.markdown(f"**[{ai_level}] {q_title}**")
+        st.write(q_question)
+        user_word = st.text_input("✏️ 한 단어 입력", key="d6_word_ans")
+        if user_word:
+            if user_word.strip().lower() == correct_word.lower():
+                st.success("정답입니다! 🎉")
+            else:
+                st.error("정답이 아닙니다. 다시 생각해 보세요.")
+        with st.expander("💡 정답 보기"):
+            st.markdown(f"정답: **{correct_word}**")
 
+    elif ai_level == "중":
+        q_title = "회귀와 학습"
+        q_question = "AI가 선형 회귀로 예측 모델을 학습할 때 반복적으로 수행하는 것은 무엇인가요?"
+        options = [
+            "① 다양한 수식을 무작위로 만든다.",
+            "② 예측값과 실제값의 오차를 계산하고, 오차를 줄이도록 계수를 반복 수정한다.",
+            "③ 정답을 미리 입력받아 암기한다.",
+            "④ 데이터를 그대로 출력한다."
+        ]
+        sample_answer = options[1]
+        st.markdown(f"**[{ai_level}] {q_title}**")
+        st.write(q_question)
+        user_choice = st.radio("정답을 선택하세요.", options, key="d6_choice")
+        if user_choice == sample_answer:
+            st.success("정답입니다! 🎉")
+        elif user_choice:
+            st.error("정답이 아닙니다.")
+        with st.expander("💡 정답 보기"):
+            st.markdown(f"**정답:** {sample_answer}")
+
+    else:  # 상
+        q_title = "수학 모델과 AI 모델의 차이"
+        q_question = "수학 모델과 AI 모델의 차이를 2문장 이상으로 설명해 보세요."
+        sample_answer = (
+            "수학 모델은 사람이 직접 공식을 만들고 해석이 쉽지만, 복잡한 데이터에는 한계가 있습니다. "
+            "AI 모델은 데이터에서 규칙을 자동으로 학습해 복잡한 문제에 잘 대응하지만 해석이 어려울 수 있습니다."
+        )
+        st.markdown(f"**[{ai_level}] {q_title}**")
+        st.write(q_question)
+        user_answer = st.text_area("✏️ 답을 입력해 보세요.", height=80, key="d6_long_ans")
+        # 상은 정답 체크 없이 예시 제공
+        with st.expander("💡 모범 답안 보기"):
+            st.markdown(sample_answer)

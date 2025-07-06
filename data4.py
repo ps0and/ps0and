@@ -36,7 +36,7 @@ def code_block_columns(problem_number, starter_code, prefix=""):
         code_input = st_ace(
             value=starter_code,
             language='python',
-            theme='dracula',
+            theme='github',
             height=220,
             key=f"{key}_editor"
         )
@@ -57,10 +57,10 @@ def show():
 
     st.subheader("📌 학습 목표")
     st.write("""
-    1. 등비수열의 일반항을 이해한다.  
-    2. 파이썬 코드로 수열을 생성한다.
+    - 등비수열의 일반항 개념을 이해할 수 있다.
+    - 파이썬으로 등비수열을 구현하고 특정 조건을 만족하는 항을 찾을 수 있다.
     """)
-    st.divider()
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
     st.subheader("ℹ️ 수열 (Sequence)")
     st.write("""
@@ -71,7 +71,7 @@ def show():
     $$
     - $a_n$: n번째 항
     """)
-    st.divider()
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
     st.subheader("ℹ️ 등비수열 (Geometric Sequence)")
     st.write("""
@@ -132,7 +132,7 @@ for i in range(1, 100):
         break
 """)
     code_block_columns(2, "a=3\nr=2\nseq=[a]\n# 여기에 for문 작성", prefix="d4_")
-    st.divider()
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
     st.markdown("##### 💻 :blue[[모둠 활동]] 나만의 등비수열 문제 만들기")
     st.write("✨:orange[학생 문제 설명과 작성 코드는 실행 결과 아래에서 확인할 수 있습니다.]")
@@ -145,7 +145,7 @@ for i in range(1, 100):
     user_code = st_ace(
         value=st.session_state.get("custom_code", "# 여기에 로직을 작성하세요\n"),
         language="python",
-        theme="monokai",
+        theme="github",
         height=250,
         key="ace_custom"
     )
@@ -157,9 +157,116 @@ for i in range(1, 100):
 
         st.code(f"# 🔍 학생 문제 설명\n{student_problem}\n\n# 💻 학생 작성 코드\n{user_code}")
         st.markdown(
-        "<div style='text-align: right; color:orange;'>✨아래 문제 설명과 코드를 복사한 뒤, 스프레드시트 링크에 그대로 붙여넣어 과제를 제출해주세요! <a href='https://docs.google.com/spreadsheets/d/1n82pBQVdLg0iXVtm0aXJAGq0C_5N1RB-C-7sCZX7AEw/edit?usp=sharing' target='_blank'>(과제 제출 링크)</a></div>",
+        "<div style='text-align: left; color:orange;'>✨문제 설명과 시각화 작성 코드를 복사한 뒤, 스프레드시트 링크에 그대로 붙여넣어 과제를 제출해주세요!",
         unsafe_allow_html=True
         )
+        st.markdown(
+        """
+        <style>
+        .hw-submit-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #1976d2 0%, #42a5f5 100%);
+            color: #fff !important;
+            font-size: 17px;
+            font-weight: bold;
+            padding: 5px 10px 5px 10px;
+            border-radius: 2em;
+            box-shadow: 0 3px 16px #1976d238;
+            margin: 0px 0 0 0;
+            letter-spacing: 1px;
+            text-decoration: none !important;
+            transition: background 0.18s, box-shadow 0.18s, transform 0.13s;
+        }
+        .hw-submit-btn:hover {
+            background: linear-gradient(90deg, #42a5f5 0%, #1976d2 100%);
+            color: #fff !important;
+            transform: translateY(-2px) scale(1.045);
+            box-shadow: 0 8px 30px #1976d22f;
+            text-decoration: none !important;
+        }
+        </style>
+        <div style='text-align: right; margin: 0px 0 0px 0;'>
+            <a href="https://docs.google.com/spreadsheets/d/1n82pBQVdLg0iXVtm0aXJAGq0C_5N1RB-C-7sCZX7AEw/edit?usp=sharing"
+            target="_blank"
+            class="hw-submit-btn">
+                📤 과제 제출하러 가기
+            </a>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+     # === 수준별 문제 ===
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
+    st.markdown("##### 🌈 :rainbow[[수준별 문제]] 등비수열 도전")
+
+    geo_level = st.radio(
+        "난이도를 선택하세요!",
+        ("하", "중", "상"),
+        horizontal=True,
+        key="d4_geo_level"
+    )
+
+    if geo_level == "하":
+        q_title = "n번째 등비수열 항 구하기"
+        q_problem = "초항이 2, 공비가 3인 등비수열의 6번째 항을 출력해보세요."
+        starter_code = (
+            "a = 2\n"
+            "r = 3\n"
+            "n = 6\n"
+            "# 여기에 코드 작성\n"
+        )
+        answer_code = (
+            "a = 2\n"
+            "r = 3\n"
+            "n = 6\n"
+            "an = a * (r ** (n-1))\n"
+            "print(an)"
+        )
+    elif geo_level == "중":
+        q_title = "리스트로 등비수열 만들기"
+        q_problem = "초항이 5, 공비가 2인 등비수열의 앞 7개 항을 리스트로 만들어 출력하세요."
+        starter_code = (
+            "a = 5\n"
+            "r = 2\n"
+            "seq = [a]\n"
+            "# 여기에 코드 작성\n"
+        )
+        answer_code = (
+            "a = 5\n"
+            "r = 2\n"
+            "seq = [a]\n"
+            "for i in range(1, 7):\n"
+            "    seq.append(seq[-1]*r)\n"
+            "print(seq)"
+        )
+    else:  # 상
+        q_title = "1000을 넘는 첫 번째 항 찾기"
+        q_problem = "초항이 4, 공비가 3인 등비수열에서 처음으로 1000을 넘는 항의 번호를 출력하세요."
+        starter_code = (
+            "a = 4\n"
+            "r = 3\n"
+            "seq = [a]\n"
+            "# for, if, break로 작성\n"
+        )
+        answer_code = (
+            "a = 4\n"
+            "r = 3\n"
+            "seq = [a]\n"
+            "for i in range(1, 100):\n"
+            "    next_val = seq[-1] * r\n"
+            "    seq.append(next_val)\n"
+            "    if next_val > 1000:\n"
+            "        print(i + 1)\n"
+            "        break\n"
+        )
+
+    st.markdown(f"**[{geo_level}] {q_title}**  \n{q_problem}")
+
+    with st.expander("💡 정답 코드 보기"):
+        st.code(answer_code, language='python')
+
+    code_block_columns("level", starter_code, prefix=f"d4_sel_{geo_level}_")
+
 
 
 if __name__ == "__main__":

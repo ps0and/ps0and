@@ -2,6 +2,54 @@ import streamlit as st
 
 # 페이지 제목
 st.title(":rainbow[7days of Coding Mathematics]")
+st.markdown(
+    """
+    <style>
+    .top-qna-link {
+        display: inline-block;
+        background: linear-gradient(90deg, #1976d2 5%, #42a5f5 90%);
+        color: #fff !important;
+        font-size: 17px;
+        font-weight: 800;
+        padding: 5px 10px 5px 12px;
+        border-radius: 2em;
+        box-shadow: 0 4px 18px rgba(25,118,210,0.13);
+        margin: 0px 0 0px 0;
+        letter-spacing: 1.2px;
+        text-decoration: none !important;
+        transition: background 0.16s, box-shadow 0.18s, transform 0.13s;
+        position: relative;
+    }
+    .top-qna-link:hover {
+        background: linear-gradient(90deg,#42a5f5 5%,#1976d2 90%);
+        color: #fff !important;
+        transform: translateY(-2px) scale(1.045);
+        box-shadow: 0 7px 24px #1976d222;
+        text-decoration: none !important;
+    }
+    .top-qna-link .qna-emoji {
+        font-size: 17px;
+        vertical-align: middle;
+        margin-right: 10px;
+        margin-left: -7px;
+        filter: drop-shadow(0 2px 1px #1976d244);
+    }
+    .top-qna-row {
+        width: 100%;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+    }
+    </style>
+    <div class="top-qna-row">
+      <a href="https://docs.google.com/spreadsheets/d/161VOawYoJH6-zlY3ntZvm5JC9niaO6sVEt7IPFYFbdk/edit?usp=sharing"
+         target="_blank"
+         class="top-qna-link"
+      ><span class="qna-emoji">💬</span>QnA 바로가기</a>
+    </div>
+    """,
+    unsafe_allow_html=True
+)
 
 # 커스텀 CSS 삽입 (버튼 스타일링)
 st.markdown(
@@ -39,8 +87,17 @@ st.markdown(
 
 # 드롭다운 메뉴 및 모듈 실행
 
-days = ["1Day", "2Day", "3Day", "4Day", "5Day", "6Day", "7Day"]
-modules = {d: f"data{d[0]}" for d in days}
+days = ["1Day", "2Day", "3Day", "4Day", "5Day", "6Day", "7Day (AI Prediction Simulator)"]
+modules = {
+    "1Day": "data1",
+    "2Day": "data2",
+    "3Day": "data3",
+    "4Day": "data4",
+    "5Day": "data5",
+    "6Day": "data6",
+    "7Day (AI Prediction Simulator)": "data7"
+}
+
 if 'day' not in st.session_state:
     st.session_state.day = days[0]
 if 'widget_day' not in st.session_state:

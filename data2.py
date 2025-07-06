@@ -36,16 +36,16 @@ def code_block_columns(problem_number, starter_code, prefix=""):
     key_prefix = f"{prefix}{problem_number}"
     c1, c2 = st.columns(2)
     with c1:
-        st.markdown("###### 📥 코드 입력")
+        st.markdown("##### 📥 코드 입력")
         code_input = st_ace(
             value=starter_code,
             language='python',
-            theme='dracula',
+            theme='github',
             height=220,
             key=f"{key_prefix}_editor"
         )
     with c2:
-        st.markdown("###### 📤 실행 결과")
+        st.markdown("##### 📤 실행 결과")
         run = st.button("▶️ 코드 실행하기", key=f"{key_prefix}_run")
         if run:
             result, status = code_runner(code_input)
@@ -58,7 +58,7 @@ def code_block_rows(problem_number, starter_code, prefix=""):
     code_input = st_ace(
         value=starter_code,
         language='python',
-        theme='dracula',
+        theme='github',
         height=200,
         key=f"{key_prefix}_editor"
     )
@@ -80,11 +80,10 @@ def show():
 
     st.subheader("📌 학습 목표")
     st.write("""
-    - `if/else` 조건문을 사용해 코드 흐름을 분기 처리할 수 있다.  
-    - `for` 반복문으로 순차적인 작업 수행과 누적 계산을 할 수 있다.
-    - 실행 중 발생하는 오류 메시지를 읽고, 간단히 디버깅할 수 있다. 
+    - 조건문(if/else)을 활용하여 코드의 실행 흐름을 제어할 수 있다.
+    - 반복문(for)을 사용하여 반복적 연산과 누적 계산을 수행할 수 있다.
     """)
-    st.divider()
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
     st.subheader("ℹ️ 조건문 if/else")
     st.write("조건문은 주어진 조건의 참·거짓에 따라 서로 다른 코드 블록을 실행하도록 제어하는 구문")
@@ -113,6 +112,7 @@ def show():
     with st.expander("💡 정답 보기"):
         st.markdown("""```python\nnum = 1\nif num% 2 == 0:\n    print('num은 짝수')\nelse:\n    print('num은 홀수')\n```""")
     code_block_columns(2, "num = 1\nif num\n ", prefix="d2_")
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
     st.subheader("ℹ️ 반복문 for")
     st.write("""
@@ -132,7 +132,7 @@ def show():
         if i==5:
             break # i가 5일 때 즉시 반복 종료
         print(i)
-    # 출력:0 1 2 3 4       
+    # 출력:1 2 3 4       
     """)
 
     st.markdown("""###### 💻 :blue[[예제 2]] 1부터 10까지 숫자를 출력하는 코드를 작성하세요""")
@@ -162,3 +162,55 @@ def show():
     with st.expander("💡 정답 보기"):
         st.markdown("""```python\ntotal = 0\nfor i in range(1, 11):\n    if i % 3 == 0:\n        total = total + i\nprint('3의 배수의 합:', total)\n```""")
     code_block_columns(6, "total = 0\nfor i in range(1, 11):\n    # 여기에 if문 작성\n\nprint('3의 배수의 합:', total)", prefix="d2_")
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
+
+    st.markdown("##### 🌈 :rainbow[[수준별 문제]] 조건문과 반복문 실습")
+
+    d2_level = st.radio(
+        "난이도를 선택하세요!",
+        ("하", "중", "상"),
+        horizontal=True,
+        key="d2_level_select"
+    )
+
+    # 임의 선정: 하 = if문(홀짝 판별), 중 = for+if(배수합), 상 = for+if+리스트(짝수리스트)
+    if d2_level == "하":
+        q_title = "홀짝 판별"
+        q_problem = "정수 num이 주어졌을 때 짝수면 '짝수', 홀수면 '홀수'를 출력하는 코드를 작성하세요. (num=17)"
+        starter_code = "num = 17\n# 여기에 if문 작성\n"
+        answer_code = (
+            "num = 17\n"
+            "if num % 2 == 0:\n"
+            "    print('짝수')\n"
+            "else:\n"
+            "    print('홀수')"
+        )
+    elif d2_level == "중":
+        q_title = "3의 배수의 합 구하기"
+        q_problem = "1부터 20까지 수 중 3의 배수의 합을 출력하세요."
+        starter_code = "total = 0\nfor i in range(1, 21):\n    # 여기에 if문 작성\n\nprint('3의 배수의 합:', total)"
+        answer_code = (
+            "total = 0\n"
+            "for i in range(1, 21):\n"
+            "    if i % 3 == 0:\n"
+            "        total += i\n"
+            "print('3의 배수의 합:', total)"
+        )
+    else:  # 상
+        q_title = "짝수 리스트 만들기"
+        q_problem = "1부터 50까지의 짝수만 리스트에 담아 출력하세요."
+        starter_code = "even_list = []\nfor i in range(1, 51):\n    # 여기에 if문 작성\n\nprint(even_list)"
+        answer_code = (
+            "even_list = []\n"
+            "for i in range(1, 51):\n"
+            "    if i % 2 == 0:\n"
+            "        even_list.append(i)\n"
+            "print(even_list)"
+        )
+
+    st.markdown(f"**[{d2_level}] {q_title}**  \n{q_problem}")
+
+    with st.expander("💡 정답 코드 보기"):
+        st.code(answer_code, language='python')
+
+    code_block_columns("level", starter_code, prefix=f"d2_sel_{d2_level}_")
