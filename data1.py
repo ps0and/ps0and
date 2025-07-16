@@ -91,6 +91,12 @@ def diagnostic_evaluation():
 
 # ✅ 메인 화면
 def show():
+    st.divider()
+    st.markdown("""
+    #### 📄연구 보고서 제목: AI로 예측한 수열: 7일 수학을 코딩하다 \n
+    #### ✏️대상 학년: 고등학교 2학년
+    """)
+    st.divider()
     diagnostic_evaluation()
     st.divider()
     st.header("🗓️ 1Day")

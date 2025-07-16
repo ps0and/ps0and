@@ -129,15 +129,61 @@ def show():
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
     # ---- 입력 방식 ----
-    st.subheader("1️⃣ 데이터 수집")
+    # 📌 데이터 수집 사이트 표 스타일 적용 및 렌더링
     st.markdown("""
-        **🔎 데이터 수집 사이트 추천**
+        <style>
+        .summary-table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 10px;
+        }
+        .summary-table th, .summary-table td {
+            border: 1px solid #ccc;
+            padding: 10px;
+            font-size: 15px;
+            text-align: center;
+        }
+        .summary-table th {
+            background-color: #f0f4f8;
+            color: #1565c0;
+            font-weight: bold;
+        }
+        </style>
+    """, unsafe_allow_html=True)
 
-        | 사이트명             | 링크                                      | 특징                                                      |
-        |:--------------------|:-----------------------------------------|:----------------------------------------------------------|
-        | 🌍 **Kaggle (캐글)**     | [kaggle.com](https://www.kaggle.com)      | - 전 세계 데이터 과학자들이 모여 다양한 **공개 데이터셋**을 공유|
-        | 🇰🇷 **공공데이터 포털**   | [data.go.kr](https://www.data.go.kr)      | - **대한민국 정부 및 공공기관에서 제공**하는 신뢰성 높은 데이터로서 행정, 교통, 환경, 경제 등 다양한 주제|
-    """)    
+    data_source_table = """
+    <table class='summary-table'>
+    <thead>
+        <tr>
+        <th>사이트명</th>
+        <th>링크</th>
+        <th>특징</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+        <td>🌍 <b>Kaggle (캐글)</b></td>
+        <td><a href="https://www.kaggle.com" target="_blank">kaggle.com</a></td>
+        <td>전 세계 데이터 과학자들이 모여 다양한 <b>공개 데이터셋</b>을 공유</td>
+        </tr>
+        <tr>
+        <td>🇰🇷 <b>공공데이터 포털</b></td>
+        <td><a href="https://www.data.go.kr" target="_blank">data.go.kr</a></td>
+        <td><b>대한민국 정부 및 공공기관에서 제공</b>하는 신뢰성 높은 데이터로서 행정, 교통, 환경, 경제 등 다양한 주제</td>
+        </tr>
+        <tr>
+        <td>📊 <b>통계청 (KOSIS)</b></td>
+        <td><a href="https://kosis.kr" target="_blank">kosis.kr</a></td>
+        <td>국가통계포털로 인구, 고용, 물가, 산업 등 <b>공식 통계 데이터</b>를 제공</td>
+        </tr>
+    </tbody>
+    </table>
+    """
+
+    st.subheader("1️⃣ 데이터 수집")
+    st.markdown("**🔎 데이터 수집 사이트 추천**")
+    st.markdown(data_source_table, unsafe_allow_html=True)
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
     st.subheader("2️⃣ 입력 방식 선택 및 데이터 입력")
     input_mode = st.radio("입력 방식 선택을 선택하세요.", ["수열 입력", "실생활 데이터 입력"])
 
@@ -258,14 +304,19 @@ def show():
             "함수식": [latex_equation_manual, latex_equation_ai],
             "SSE": [f"{manual_sse:.2f}", f"{sse:.2f}"]
         })
-        st.dataframe(comparison_df.reset_index(drop=True), use_container_width=True, height=125)
-        st.markdown(
-            f"""
-            <span style='color:#1976d2; font-size:15px;'>
-            🧮 <b>SSE</b>가 낮을수록 <b>모델의 예측 오차</b>가 적습니다.
-            </span>
-            """, unsafe_allow_html=True
-        )
+        st.dataframe(comparison_df.reset_index(drop=True), use_container_width=True, height=107, hide_index=True)
+        errors_df = pd.DataFrame({
+        "X값": x.flatten(),
+        "실제값": y,
+        "수동 예측값": y_pred_manual,
+        f"{model_type} 예측값": y_pred,
+        })
+
+        errors_df["수동 오차(절댓값)"] = (errors_df["실제값"] - errors_df["수동 예측값"]).abs()
+        errors_df[f"{model_type} 오차(절댓값)"] = (errors_df["실제값"] - errors_df[f"{model_type} 예측값"]).abs()
+
+        st.markdown("##### 📉 실제값과 예측값 오차 비교")
+        st.dataframe(errors_df.style.format(precision=2).background_gradient(cmap='Reds', subset=["수동 오차(절댓값)", f"{model_type} 오차(절댓값)"]), use_container_width=True, height=118, hide_index=True)
         best_model = comparison_df.loc[comparison_df['SSE'].astype(float).idxmin(), '모델']
         st.info(f"👉 두 모델의 SSE(오차 합계)를 비교해보세요. SSE가 더 작은 모델✨({best_model})이 주어진 데이터에 더 잘 맞는 예측을 했음을 의미합니다.")
 
@@ -291,7 +342,7 @@ def show():
             "모델": ["수동 회귀", model_type],
             f"{x_name}={next_input:.2f}일 때 {y_name} 예측값": [f"{pred_manual_next:.2f}", f"{pred_ai_next:.2f}"]
         })
-        st.dataframe(prediction_df.reset_index(drop=True), use_container_width=True, height=125)
+        st.dataframe(prediction_df.reset_index(drop=True), use_container_width=True, height=106, hide_index=True)
         st.markdown(
             f"""
             <span style='color:#d81b60; font-size:15px;'>
@@ -382,16 +433,55 @@ def show():
 
     # ---- 결과 분석 ----
     st.subheader("4️⃣ 결과 분석")
-    st.markdown(f"""
-    - 입력 방식: **{input_mode}**  
-    - **수동 회귀**와 **{model_type}** 모델로 예측을 수행했습니다.  
-    - 수동 회귀: $ {latex_equation_manual} $
-    - AI 모델: $ {latex_equation_ai} $
-    - 다음 입력({x_name}={next_input:.2f})에 대한 예측값:  
-    - 수동 회귀: **{pred_manual_next:.2f}**  
-    - {model_type}: **{pred_ai_next:.2f}**
-    -  SSE가 더 작은 모델: **{best_model}**
-    """)
+
+    # 📊 결과 요약 테이블
+    st.markdown("""
+        <style>
+        .summary-table td, .summary-table th {
+            padding: 8px 12px;
+            border: 1px solid #ccc;
+            font-size: 15px;
+        }
+        .summary-table th {
+            background-color: #f0f4f8;
+            color: #1565c0;
+            font-weight: bold;
+        }
+        .summary-table {
+            border-collapse: collapse;
+            margin-top: 15px;
+            width: 100%;
+        }
+        .highlight {
+            background-color: #fff9c4;
+            font-weight: bold;
+            color: #d32f2f;
+        }
+        .equation {
+            font-family: monospace;
+            color: #424242;
+        }
+        </style>
+    """, unsafe_allow_html=True)
+
+    styled_table_html = f"""
+    <table class='summary-table'>
+        <thead>
+            <tr><th>분석 항목</th><th>결과</th></tr>
+        </thead>
+        <tbody>
+            <tr><td>입력 방식</td><td>{input_mode}</td></tr>
+            <tr><td>수동 회귀 함수식</td><td class='equation'> {latex_equation_manual} </td></tr>
+            <tr><td>{model_type} 함수식</td><td class='equation'> {latex_equation_ai} </td></tr>
+            <tr><td>예측값 ({x_name}={next_input:.2f}) - 수동</td><td>{pred_manual_next:.2f}</td></tr>
+            <tr><td>예측값 ({x_name}={next_input:.2f}) - {model_type}</td><td>{pred_ai_next:.2f}</td></tr>
+            <tr><td>SSE (수동 회귀)</td><td>{manual_sse:.2f}</td></tr>
+            <tr><td>SSE ({model_type})</td><td>{sse:.2f}</td></tr>
+            <tr><td>더 적합한 모델 (SSE 기준)</td><td class='highlight'>{best_model}</td></tr>
+        </tbody>
+    </table>
+    """
+    st.markdown(styled_table_html, unsafe_allow_html=True)
     st.success(
         f"""🔎 **학습 Tip**  
     두 모델의 예측 결과를 비교하고, 실제 현상(혹은 관측 데이터)에 더 가까운 쪽이 무엇인지,
@@ -399,7 +489,7 @@ def show():
     데이터의 개수, 분포, 함수의 복잡성 등이 모델의 성능에 영향을 미칩니다."""
     )
     st.markdown(
-    "<div style='text-align: left; color:orange;'>✨결과 분석과 시각화 그래프를 복사한 뒤, 스프레드시트 링크에 그대로 붙여넣어 과제를 제출해주세요!",
+    "<div style='text-align: left; color:orange;'>✨실생활 데이터를 활용한 주제탐구 보고서를 작성하여 정해진 양식에 맞춰 제출하세요!",
     unsafe_allow_html=True
     )
     st.markdown(
@@ -428,10 +518,10 @@ def show():
     }
     </style>
     <div style='text-align: right; margin: 0px 0 0px 0;'>
-        <a href="https://docs.google.com/spreadsheets/d/1n82pBQVdLg0iXVtm0aXJAGq0C_5N1RB-C-7sCZX7AEw/edit?usp=sharing"
+        <a href="https://docs.google.com/document/d/1qEsfs1vruu6x-Pfa_yJOyK2_thBLjv6knccVNNm2u5o/edit?usp=sharing"
            target="_blank"
            class="hw-submit-btn">
-            📤 과제 제출하러 가기
+            📤 데이터 기반 탐구 보고서 작성하기
         </a>
     </div>
     """,
