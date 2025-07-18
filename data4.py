@@ -138,7 +138,7 @@ for i in range(1, 100):
     st.write("✨:orange[학생 문제 설명과 작성 코드는 실행 결과 아래에서 확인할 수 있습니다.]")
     student_problem = st.text_area(
         "📝 문제 설명 입력", 
-        value=st.session_state.get("student_problem_text", "초항이 4이고 공비가 3인 등비수열의 첫 7항을 출력하세요.")
+        value=st.session_state.get("student_problem_text", "# 여기에 문제를 작성하세요\n")
     )
     st.session_state["student_problem_text"] = student_problem
 

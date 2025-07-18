@@ -95,16 +95,16 @@ def show():
     # 출력: 990
     """)
         
-    code_block_columns(1,"a = 2\nd = 5\nn = 20\nS_n = 0\n# 여기에 for문을 이용해 합을 계산하세요.\n", prefix="d5_")
+    code_block_columns(1,"a = 2\nd = 5\nS_n = a\n# 여기에 for문을 이용해 합을 계산하세요.\n", prefix="d5_")
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
     st.subheader("ℹ️ 등비수열의 합")
     st.write(""" 
             - **등비수열의 합**: 첫째 항 $a_1$, 공비 $r$, $n$항까지의 합 $S_n$는
             """)
-    st.latex(r"S_n = a_1 \times \frac{1 - r^n}{1 - r} \quad (r \neq 1)")
+    st.latex(r"S_n = a_1 \times \frac{r^n -1}{r-1} \quad (r \neq 1)")
     st.write("- 예) $a_1=2$, $r=3$일 때")
-    st.latex(r"S_{4} = 2 \times \frac{1-3^4}{1-3} = 2 \times \frac{1-81}{-2} = 2 \times 40 = 80")
+    st.latex(r"S_{4} = 2 \times \frac{3^4-1}{3-1} = 2 \times \frac{81-1}{2} = 2 \times 40 = 80")
 
     st.markdown("###### 💻 :blue[[예제 1]] 첫째 항이 `3`, 공비가 `2`인 등비수열의 첫 `10`항까지 합을 구하는 코드를 작성하세요.")
     st.code("""\
@@ -117,7 +117,7 @@ def show():
     print(S_n)
     """)
 
-    st.markdown("###### 💻 :blue[[문제 1]] 첫째 항이 `2`, 공비가 `5`인 등비수열의 첫 `5`항까지 합을 구하는 코드를 작성하세요.")
+    st.markdown("###### 💻 :blue[[문제 2]] 첫째 항이 `2`, 공비가 `5`인 등비수열의 첫 `5`항까지 합을 구하는 코드를 작성하세요.")
 
     with st.expander("💡 힌트 보기"):
         st.markdown("각 항을 구해서 하나씩 더하는 방법입니다. `a * (r**i)`를 이용하세요.")
@@ -135,14 +135,14 @@ def show():
     """)
 
     code_block_columns(2, 
-    "a = 2\nr = 5\nn = 5\nS_n = 0\n# 여기에 for문을 이용해 합을 계산하세요.\n", prefix="d5_")
+    "a = 2\nr = 5\nS_n = a\n# 여기에 for문을 이용해 합을 계산하세요.\n", prefix="d5_")
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
     st.markdown("##### 💻 :blue[[모둠 문제]] 수열의 합 문제 만들기")
     st.write("학생 문제 설명과 작성 코드는 실행 결과 아래에서 확인할 수 있습니다.")
 
     student_problem = st.text_area(
     "📝 문제 설명 입력",
-    value="초항이 4이고 공비가 3인 등비수열의 8항까지의 합을 구하는 코드를 작성하세요."
+    value="# 여기에 문제를 작성하세요\n"
     )
 
     user_code = st_ace(

@@ -147,7 +147,7 @@ def show():
     # 💡 모둠 활동: 문제 설명과 코드 실습 최적화
     student_problem = st.text_area(
         "📝 문제 설명 입력", 
-        value=st.session_state.get("student_problem_text", "초항이 4이고 공차가 3인 등차수열의 첫 7항을 출력하세요.")
+        value=st.session_state.get("student_problem_text", "#여기에 문제를 작성하세요")
     )
     st.session_state["student_problem_text"] = student_problem
 
