@@ -3,7 +3,7 @@ from streamlit_ace import st_ace
 import io
 import sys
 
-# ✅ 코드 실행 함수 (간결하고 안전하게)
+# 코드 실행 함수
 def code_runner(code_input):
     output_buffer = io.StringIO()
     result = ""
@@ -20,7 +20,7 @@ def code_runner(code_input):
         sys.stdout = sys.__stdout__
     return result, status
 
-# ✅ 출력 함수 (즉시 렌더링용)
+# 출력 함수
 def display_output(result, status):
     if status == "success":
         st.markdown(f"```bash\n{result}\n```")
@@ -31,7 +31,7 @@ def display_output(result, status):
             unsafe_allow_html=True
         )
 
-# ✅ 리팩토링된 코드 블록 함수 (세션 상태 저장 X)
+# 리팩토링된 코드 블록 함수 (세션 상태 저장 X)
 def code_block_columns(problem_number, starter_code, prefix=""):
     key_prefix = f"{prefix}{problem_number}"
     c1, c2 = st.columns(2)
@@ -50,7 +50,7 @@ def code_block_columns(problem_number, starter_code, prefix=""):
             result, status = code_runner(code_input)
             display_output(result, status)
 
-# ✅ 메인 수업 페이지 구성
+# ✅ 메인 화면
 def show():
     st.header("🗓️ Day 3")
     st.subheader("수열: 등차수열")
@@ -58,7 +58,7 @@ def show():
     st.divider()
 
     st.subheader("🎥 오늘의 수업 영상")
-
+    st.video("https://youtu.be/D17z97cYUxw")
     st.subheader("📌 학습 목표")
     st.write("""
     - 등차수열의 일반항 개념을 이해할 수 있다.
@@ -144,7 +144,6 @@ def show():
 
     st.markdown("##### 💻 :blue[[모둠 활동]] 나만의 등차수열 문제 만들기")
     st.write("✨:orange[학생 문제 설명과 작성 코드는 실행 결과 아래에서 확인할 수 있습니다.]")
-    # 💡 모둠 활동: 문제 설명과 코드 실습 최적화
     student_problem = st.text_area(
         "📝 문제 설명 입력", 
         value=st.session_state.get("student_problem_text", "#여기에 문제를 작성하세요")

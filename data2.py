@@ -3,7 +3,7 @@ from streamlit_ace import st_ace
 import io
 import sys
 
-# ✅ 코드 실행 함수
+# 코드 실행 함수
 def code_runner(code_input):
     output_buffer = io.StringIO()
     result = ""
@@ -20,7 +20,7 @@ def code_runner(code_input):
         sys.stdout = sys.__stdout__
     return result, status
 
-# ✅ 출력 표시 함수
+# 출력 표시 함수
 def display_output(result, status):
     if status == "success":
         st.markdown(f"```bash\n{result}\n```")
@@ -31,7 +31,7 @@ def display_output(result, status):
             unsafe_allow_html=True
         )
 
-# ✅ 코드 블록 (좌우형)
+# 코드 블록 (좌우형)
 def code_block_columns(problem_number, starter_code, prefix=""):
     key_prefix = f"{prefix}{problem_number}"
     c1, c2 = st.columns(2)
@@ -51,7 +51,7 @@ def code_block_columns(problem_number, starter_code, prefix=""):
             result, status = code_runner(code_input)
             display_output(result, status)
 
-# ✅ 코드 블록 (상하형)
+# 코드 블록 (상하형)
 def code_block_rows(problem_number, starter_code, prefix=""):
     key_prefix = f"{prefix}{problem_number}"
     st.markdown("###### 📥 코드 입력")
@@ -69,7 +69,7 @@ def code_block_rows(problem_number, starter_code, prefix=""):
         display_output(result, status)
 
 
-# ✅ 메인 수업 내용
+# ✅ 메인 화면
 def show():
     st.header("🗓️ 2Day")
     st.subheader("파이썬 기초: 조건문, 반복문")
@@ -77,7 +77,7 @@ def show():
     st.divider()
 
     st.subheader("🎥 수업 영상 보기")
-
+    st.video("https://youtu.be/7vXkAxtBb2w")
     st.subheader("📌 학습 목표")
     st.write("""
     - 조건문(if/else)을 활용하여 코드의 실행 흐름을 제어할 수 있다.
@@ -173,7 +173,6 @@ def show():
         key="d2_level_select"
     )
 
-    # 임의 선정: 하 = if문(홀짝 판별), 중 = for+if(배수합), 상 = for+if+리스트(짝수리스트)
     if d2_level == "하":
         q_title = "홀짝 판별"
         q_problem = "정수 num이 주어졌을 때 짝수면 '짝수', 홀수면 '홀수'를 출력하는 코드를 작성하세요. (num=17)"

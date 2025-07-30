@@ -20,7 +20,6 @@ def show():
 
         하지만 인공지능(AI)은 사람처럼 사고하지 않고, 많은 숫자 데이터를 관찰하여 그 안에 숨어 있는 규칙을 자동으로 찾아냅니다. 예를 들어 아래와 같은 데이터를 보고:
             """)
-            # 테이블 대신 목록으로 전개
         st.markdown("""
         - `x` (항 번호): `1` → `y` (수열 값): `2`  
         - `x` (항 번호): `2` → `y` (수열 값): `4`  
@@ -40,20 +39,20 @@ def show():
         - AI는 숫자들 사이의 관계를 수학적으로 표현하는 법을 학습합니다.  
         가장 기본적인 방식이 **회귀**(regression)입니다. 회귀는 입력값 $x$와 출력값 $y$ 사이의 관계를 함수 형태로 표현하는 것이며, 대표적으로 **선형 회귀**(linear regression)가 있습니다.
         """)
-        col1, col2 = st.columns([1, 1])  # 비율을 조정할 수 있음
+        col1, col2 = st.columns([1, 1])  
         with col1:
             st.image("image/1dim.png",
                     caption="선형회귀",
-                    width=300)  # 이미지 크기 조정 가능
+                    width=300)  
         with col2:
             st.latex(r"y = ax + b")
             st.markdown("""예를 들어, 아래와 같은 데이터를 AI가 관찰했다면: `x: 1 → y: 3 , x: 2 → y: 5 , x: 3 → y: 7` 
             이 데이터를 통해 AI는 수식을 $y = 2x + 1$로 학습할 수 있습니다.  이처럼 선형 회귀는 **직선으로 표현 가능한 관계**를 찾아내는 방법입니다.""")
-        col1, col2 = st.columns([1, 1])  # 비율을 조정할 수 있음
+        col1, col2 = st.columns([1, 1])  
         with col1:
             st.image("image/2dim.png",
                     caption="다항회귀",
-                    width=300)  # 이미지 크기 조정 가능
+                    width=300)  
         with col2:
             st.markdown("""
             하지만 어떤 데이터는 **직선이 아니라 곡선**으로 표현됩니다. 예를 들어: ` x: 1 → y: 1, x: 2 → y: 4, x: 3 → y: 9` 이 관계는 $y = x^2$이라는 **2차 함수**로 설명할 수 있고, 이는 **다항 회귀**(polynomial regression)를 통해 학습됩니다.
@@ -73,11 +72,11 @@ def show():
         AI는 수식을 스스로 만들기 위해 수많은 수식 조합을 시도해봅니다. 예를 들어 아래와 같은 형태의 수식을 가정합니다
         """)
 
-        col1, col2 = st.columns([1, 1])  # 비율을 조정할 수 있음
+        col1, col2 = st.columns([1, 1])  
         with col1:
             st.image("image/sleep.png",
                     caption="AI가 수식을 찾는 과정",
-                    width=300)  # 이미지 크기 조정 가능
+                    width=300) 
         with col2:
             st.latex(r"y = w_1x + w_0")        
             st.markdown("""
@@ -101,11 +100,11 @@ def show():
         사람의 뇌 구조를 모방하여 정보를 처리합니다.
         딥러닝은 입력값을 받아 여러 단계(층)를 거치며 출력값을 생성합니다.
         """)
-        col1, col2 = st.columns([1, 1])  # 비율을 조정할 수 있음
+        col1, col2 = st.columns([1, 1]) 
         with col1:
             st.image("image/deep_learning_structure.png",
                     caption="딥러닝 구조 예시",
-                    width=300)  # 이미지 크기 조정 가능
+                    width=300)
 
         with col2:
             st.markdown("""
@@ -207,6 +206,6 @@ def show():
         st.markdown(f"**[{ai_level}] {q_title}**")
         st.write(q_question)
         user_answer = st.text_area("✏️ 답을 입력해 보세요.", height=80, key="d6_long_ans")
-        # 상은 정답 체크 없이 예시 제공
+
         with st.expander("💡 모범 답안 보기"):
             st.markdown(sample_answer)

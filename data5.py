@@ -3,7 +3,7 @@ from streamlit_ace import st_ace
 import io
 import sys
 
-# ✅ 코드 실행 함수
+# 코드 실행 함수
 def code_runner(code_input):
     output_buffer = io.StringIO()
     try:
@@ -26,7 +26,7 @@ def display_output(result, status):
             unsafe_allow_html=True
         )
 
-# ✅ 좌우 2열 코드 작성 및 실행 블록
+# 좌우 2열 코드 작성 및 실행 블록
 def code_block_columns(problem_number, starter_code, prefix=""):
     key = f"{prefix}{problem_number}"
     c1, c2 = st.columns(2)
@@ -45,7 +45,7 @@ def code_block_columns(problem_number, starter_code, prefix=""):
             result, status = code_runner(code_input)
             display_output(result, status)
 
-# ✅ 메인 수업 페이지 구성
+# 메인 화면
 def show():
     st.header("🗓️ Day 5")
     st.subheader("수열의 합")
@@ -53,7 +53,7 @@ def show():
     st.divider()
 
     st.subheader("🎥 오늘의 수업 영상")
-
+    st.video("https://youtu.be/jUlKxbvfDKA")
     st.subheader("📌 학습 목표")
     st.write("""
     - 등차수열과 등비수열의 합 공식을 이해할 수 있다.
@@ -106,7 +106,7 @@ def show():
     st.write("- 예) $a_1=2$, $r=3$일 때")
     st.latex(r"S_{4} = 2 \times \frac{3^4-1}{3-1} = 2 \times \frac{81-1}{2} = 2 \times 40 = 80")
 
-    st.markdown("###### 💻 :blue[[예제 1]] 첫째 항이 `3`, 공비가 `2`인 등비수열의 첫 `10`항까지 합을 구하는 코드를 작성하세요.")
+    st.markdown("###### 💻 :blue[[예제 2]] 첫째 항이 `3`, 공비가 `2`인 등비수열의 첫 `10`항까지 합을 구하는 코드를 작성하세요.")
     st.code("""\
     a = 3
     r = 2

@@ -12,7 +12,7 @@ import pandas as pd
 import re
 import os
 
-# 폰트 파일 절대 경로 설정 (중요!)
+# 폰트 파일 절대 경로 설정
 font_path = os.path.join(os.path.dirname(__file__), "font/NanumGothic.ttf")
 
 # 시스템에 폰트 추가
@@ -23,7 +23,6 @@ font_name = fm.FontProperties(fname=font_path).get_name()
 matplotlib.rcParams['font.family'] = font_name
 matplotlib.rcParams['axes.unicode_minus'] = False
 
-# -------------------- [레이아웃용 마크다운 함수] --------------------
 def pretty_title(text, color1, color2):
     return f"""
     <div style='
@@ -36,7 +35,7 @@ def pretty_title(text, color1, color2):
     </div>
     """
 
-# -------------------- [수식(LaTeX) 생성 함수] --------------------
+# 수식(LaTeX) 생성 함수
 def get_polynomial_equation_latex(model, poly):
     terms = poly.get_feature_names_out(['x'])
     coefs = model.coef_
@@ -91,7 +90,7 @@ def get_manual_equation_latex(coeffs, b):
     if expr.startswith("+"): expr = expr[1:]
     return f"y = {expr}" if terms else f"y = {b:.2f}"
 
-# -------------------- [AI 모델 함수] --------------------
+# AI 모델 함수
 @st.cache_data
 def run_poly_regression(x, y, degree):
     poly = PolynomialFeatures(degree=degree, include_bias=False)
@@ -113,23 +112,23 @@ def run_deep_learning(x, y, hidden1, hidden2, epochs):
     y_pred = model.predict(x).flatten()
     latex = f"Deep Learning (1-{hidden1}-{hidden2}-1)"
     return model, y_pred, latex
-
+# 메인 화면
 def show():
     st.header("🗓️ Day 7")
     st.subheader("인공지능 수열 예측 시뮬레이터")
     st.write("AI를 이용해서 수열 또는 실생활 데이터를 예측해봅시다.")
     st.divider()
     st.subheader("🎥 오늘의 수업 영상")
+    st.video("https://youtu.be/Tp0jHWXCbJA")
     st.subheader("📌 학습 목표")
     st.markdown("""
     - 수학 모델과 AI 모델의 예측 성능을 비교할 수 있다.\n 
-        수동 회귀 모델과 AI 모델(머신러닝 또는 딥러닝)의 예측값($\hat{y}$)과 오차($SSE = \sum (y_i - \hat{y}_i)^2$)를 비교 분석한다.
+    - 수동 회귀 모델과 AI 모델(머신러닝 또는 딥러닝)의 예측값($\hat{y}$)과 오차($SSE = \sum (y_i - \hat{y}_i)^2$)를 비교 분석한다.
     - AI 모델로 새로운 데이터를 예측할 수 있다.
     """)
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
-    # ---- 입력 방식 ----
-    # 📌 데이터 수집 사이트 표 스타일 적용 및 렌더링
+    # 입력 방식
     st.markdown("""
         <style>
         .summary-table {
@@ -190,7 +189,6 @@ def show():
     if input_mode == "수열 입력":
         x_name, y_name = "X", "Y"
     else:
-        # 실생활 데이터 입력 모드에서만 변수 이름 입력을 바로 아래에 위치
         st.markdown(f"#### 🎓 실생활 데이터 입력")
         with st.expander("🔤 변수 설명(이름) 입력"):
             x_name_input = st.text_input("X 변수의 이름/설명 (예: 공부 시간, 키 등)", value="")
@@ -205,7 +203,6 @@ def show():
         y = np.array(list(map(float, seq_input.split(","))))
         x = np.arange(1, len(y) + 1).reshape(-1, 1)
     else:
-        # 실생활 데이터 입력 모드에서 x/y 값 입력
         x_input = st.text_input(f"{x_name} 값 (쉼표로 구분):", "6.5,8,5,7,9,4.5,10,6,7.5,5.5", key="x_input")
         y_input = st.text_input(f"{y_name} 값 (쉼표로 구분):", "7,8,5,6,9,4,8,5,7,6", key="y_input")
         try:
@@ -246,7 +243,7 @@ def show():
     )
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
-    # ---- 수동 회귀 vs AI 모델 ----
+    # 수동 회귀 vs AI 모델
     st.subheader("3️⃣ 수동 회귀 vs AI 모델")
     manual_col, ai_col = st.columns(2)
 
@@ -354,7 +351,7 @@ def show():
 
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
-    # ---- 시각화 ----
+    # 시각화
     st.subheader(f"📊 시각화 ({x_name} vs {y_name} 비교)")
 
     fig, ax = plt.subplots(figsize=(7, 5))
@@ -431,7 +428,7 @@ def show():
     st.pyplot(fig)
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
-    # ---- 결과 분석 ----
+    # 결과 분석
     st.subheader("4️⃣ 결과 분석")
 
     # 📊 결과 요약 테이블

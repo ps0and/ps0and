@@ -46,7 +46,7 @@ def code_block_columns(problem_number, starter_code, prefix=""):
             result, status = code_runner(code_input)
             display_output(result, status)
 
-# ✅ 메인 수업 페이지 구성
+# ✅ 메인 화면
 def show():
     st.header("🗓️ Day 4")
     st.subheader("수열: 등비수열")
@@ -54,7 +54,7 @@ def show():
     st.divider()
 
     st.subheader("🎥 오늘의 수업 영상")
-
+    st.video("https://youtu.be/kJPv5EkTx1E")
     st.subheader("📌 학습 목표")
     st.write("""
     - 등비수열의 일반항 개념을 이해할 수 있다.
@@ -195,7 +195,7 @@ for i in range(1, 100):
         """,
         unsafe_allow_html=True
     )
-     # === 수준별 문제 ===
+
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
     st.markdown("##### 🌈 :rainbow[[수준별 문제]] 등비수열 도전")
 
