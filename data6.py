@@ -291,7 +291,14 @@ def show():
     st.subheader("인공지능의 이해")
     st.write("AI는 어떻게 생각하는지 알아 봅시다.")
     st.divider()
-
+    st.subheader("🎥 오늘의 수업 영상")
+    st.video("https://youtu.be/RYTRvvmHMfI")
+    st.subheader("📌 학습 목표")
+    st.write("""
+    - 수학적 사고와 인공지능적 사고의 차이를 설명할 수 있다.
+    - 회귀와 딥러닝의 기본 원리 및 학습 과정을 이해한다.
+    """)
+    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
     tabs = st.tabs([
         "1️⃣ 수학적 사고 vs AI 사고",
         "2️⃣ 회귀와 함수의 원리",
@@ -358,9 +365,7 @@ def show():
         """)
         practice_widget("2,4,8,16,32,64", tip="선형 vs 다항", key_prefix="tab2")
         st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
-
-
-
+    
     with tabs[2]:
         st.markdown("""
         AI는 수식을 스스로 만들기 위해 수많은 수식 조합을 시도해봅니다. 예를 들어 아래와 같은 형태의 수식을 가정합니다
@@ -393,11 +398,81 @@ def show():
         오차가 **작아**지도록 수식의 **계수**를 반복해서 **수정**하며 **학습**합니다.                 
         """)
 
-                # ✅ practice_widget에서 값 반환받기
-        x, y, y_hat, degree = practice_widget("2,4,8,16,32,64", tip="잔차 확인", key_prefix="tab3")
+        # ✅ 사용자 입력
+        seq_text = st.text_input("수열 입력 (쉼표로 구분)", value="2,4,8,16,32,64", key="tab3_seq")
+        parsed, err = parse_sequence(seq_text)
 
-        # ✅ 학생 입력 반영해서 오차표 + 지표 계산
-        if x is not None:
+        if err:
+            st.warning(err)
+        else:
+            x, y = parsed
+
+            col1, col2 = st.columns([1, 1])
+            with col1:
+                degree = st.slider("다항 회귀 차수 선택", 1, 4, 2, key="tab3_degree")
+            with col2:
+                epochs = st.selectbox("학습 횟수 (Epochs)", [20, 40, 60], index=1, key="tab3_epochs")
+
+            # ✅ 모델 학습
+            poly = PolynomialFeatures(degree=degree, include_bias=False)
+            X_poly = poly.fit_transform(x)
+            model = LinearRegression().fit(X_poly, y)
+
+            # ✅ epoch 비율 반영 (반복학습 흉내)
+            progress = epochs / 60   # 20→0.33, 40→0.66, 60→1.0
+            approx_coefs = model.coef_ * progress
+            approx_intercept = model.intercept_ * progress
+            y_hat = X_poly.dot(approx_coefs) + approx_intercept
+
+            # ✅ 회귀식 변환
+            # 원래 모델의 수식 문자열
+            full_eq = poly_equation_to_latex(model, poly)
+            # 학습 진행도 반영된 근사식
+            eq_terms = []
+            # ✅ 회귀식 변환 (근사식만 표시, 내림차순 정리)
+            terms = poly.get_feature_names_out(['x'])
+            term_list = []
+            for t, c in zip(terms, approx_coefs):
+                if abs(c) < 1e-8:
+                    continue
+                if t == "x":
+                    degree_val = 1
+                    term = (degree_val, f"{c:.2f}x")
+                elif "^" in t:
+                    degree_val = int(t.split("^")[1])
+                    term = (degree_val, f"{c:.2f}x^{{{degree_val}}}")
+                else:
+                    degree_val = 0
+                    term = (degree_val, f"{c:.2f}{t}")
+                term_list.append(term)
+
+            if abs(approx_intercept) > 1e-8:
+                term_list.append((0, f"{approx_intercept:.2f}"))
+
+            # 차수 내림차순 정렬
+            term_list.sort(key=lambda x: x[0], reverse=True)
+
+            # 식 문자열 만들기
+            eq_terms = [t[1] for t in term_list]
+            approx_eq = " + ".join(eq_terms).replace("+ -", "- ")
+            latex_eq = f"y = {approx_eq}"
+
+            # ✅ 회귀식 출력
+            st.markdown("#### 📐 학습된 회귀식")
+            st.latex(latex_eq)
+
+            # ✅ 그래프
+            fig, ax = plt.subplots()
+            ax.scatter(x, y, color="#1976D2", s=45, label="실제값")
+            ax.plot(x, y_hat, color="#FF9800", linewidth=2, label=f"추세선 (Epoch {epochs})")
+            for xi, yi, ypi in zip(x.flatten(), y, y_hat):
+                ax.plot([xi, xi], [yi, ypi], "--", color="red", linewidth=1, alpha=0.7,
+                        label="편차" if xi==x[0,0] else "")
+            ax.set_title(f"다항 회귀 (차수={degree}, Epoch={epochs})", fontsize=13, fontweight="bold")
+            ax.legend()
+            st.pyplot(fig)
+
+            # ✅ 오차 및 지표
             mse = mean_squared_error(y, y_hat)
             acc = r2_score(y, y_hat) * 100
 
@@ -421,9 +496,8 @@ def show():
             with col2:
                 st.metric("🎯 정확도 (R²)", f"{acc:.1f}%")
 
-            st.info("👉 오차(MSE)가 작고 정확도가 높을수록 모델이 데이터를 더 잘 설명합니다!")
+            st.info("👉 Epoch이 증가할수록 회귀식 계수가 점점 안정되어 실제 데이터에 가까워집니다!")
             st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
-
 
 
     # ---------- Tabs[3] ----------
