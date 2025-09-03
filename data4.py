@@ -134,8 +134,6 @@ def show():
     st.subheader("수열: 등비수열")
     st.write("등비수열을 파이썬 코드로 직접 구현해 봅니다.")
     st.divider()
-
-    st.subheader("🎥 오늘의 수업 영상")
     st.video("https://youtu.be/kJPv5EkTx1E")
     st.subheader("📌 학습 목표")
     st.write("""

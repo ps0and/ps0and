@@ -373,7 +373,6 @@ def show():
     st.subheader("인공지능 수열 예측 시뮬레이터")
     st.write("AI를 이용해서 수열 또는 실생활 데이터를 예측해봅시다.")
     st.divider()
-    st.subheader("🎥 오늘의 수업 영상")
     st.video("https://youtu.be/Tp0jHWXCbJA")
     st.subheader("📌 학습 목표")
     st.markdown("""

@@ -217,7 +217,7 @@ def plot_with_residual_lines(x, y, y_hat, title="데이터 & 추세선 및 편�
 
 # ---------- 실습 위젯 ----------
 def practice_widget(default_seq: str, tip: str = "", key_prefix: str = "d6"):
-    st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
+    st.divider()
     st.markdown("""
     <div style="
         background-color: #f0f7ff;
@@ -229,7 +229,7 @@ def practice_widget(default_seq: str, tip: str = "", key_prefix: str = "d6"):
         font-weight: bold;
         color: #0d47a1;
         ">
-        ✍️ 실습
+        💡 생각 공작소
     </div>
     """, unsafe_allow_html=True)
 
@@ -280,7 +280,6 @@ def practice_widget(default_seq: str, tip: str = "", key_prefix: str = "d6"):
 
     with col2:
         st.latex(latex_eq)
-    st.divider()
     plot_with_residual_lines(x, y, y_hat, title=f"다항 회귀 ({degree}차)와 편차 표시", key_prefix=key_prefix)
 
     return x, y, y_hat, degree   # ✅ 입력 데이터 반환
@@ -291,7 +290,6 @@ def show():
     st.subheader("인공지능의 이해")
     st.write("AI는 어떻게 생각하는지 알아 봅시다.")
     st.divider()
-    st.subheader("🎥 오늘의 수업 영상")
     st.video("https://youtu.be/RYTRvvmHMfI")
     st.subheader("📌 학습 목표")
     st.write("""
@@ -381,9 +379,9 @@ def show():
             st.markdown("""
             이때 $w_1$과 $w_0$는 AI가 학습을 통해 찾아내는 **계수**(weight)입니다. 
             AI는 다양한 값을 시도해보며, **예측값과 실제값의 차이**를 줄이려고 합니다.
-            이 오차를 계산하는 방법 중 하나가 **평균제곱오차**(MSE: Mean Squared Error)입니다:
+            이 오차를 계산하는 방법 중 하나가 **오차제곱합 **(SSE: Mean Squared Error)입니다:
             """)
-        st.latex(r"\text{MSE} = \frac{1}{n} \sum_{i=1}^{n}(y_i - \hat{y}_i)^2")
+        st.latex(r"\text{SSE} = \sum_{i=1}^{n}(y_i - \hat{y}_i)^2")
         st.markdown("""
         - $y_i$: 실제값 , $\hat{y}_i$: 예측값  
 
@@ -397,6 +395,22 @@ def show():
         - AI는 **예측값**과 **실제값**의 차이(오차)를 계산해서 
         오차가 **작아**지도록 수식의 **계수**를 반복해서 **수정**하며 **학습**합니다.                 
         """)
+
+        # ----- 입력 위젯 -----
+        st.markdown("""
+        <div style="
+            background-color: #f0f7ff;
+            border-left: 6px solid #1976d2;
+            padding: 12px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #0d47a1;
+            ">
+            💡 생각 공작소
+        </div>
+        """, unsafe_allow_html=True)
 
         # ✅ 사용자 입력
         seq_text = st.text_input("수열 입력 (쉼표로 구분)", value="2,4,8,16,32,64", key="tab3_seq")
@@ -457,9 +471,26 @@ def show():
             approx_eq = " + ".join(eq_terms).replace("+ -", "- ")
             latex_eq = f"y = {approx_eq}"
 
+            col1, col2 = st.columns([3, 5])
+            with col1:
             # ✅ 회귀식 출력
-            st.markdown("#### 📐 학습된 회귀식")
-            st.latex(latex_eq)
+                st.markdown("""
+                <div style="
+                    background-color: #f5f5f5; 
+                    border-left: 6px solid #9e9e9e;
+                    padding: 10px; 
+                    margin-top: 10px; 
+                    border-radius: 6px;
+                    font-weight: bold;
+                    font-size: 16px;
+                    color: #424242;
+                    text-align: center;
+                    ">
+                    📐 회귀식
+                </div>
+                """, unsafe_allow_html=True)
+            with col2:
+                st.latex(latex_eq)
 
             # ✅ 그래프
             fig, ax = plt.subplots()
@@ -472,8 +503,7 @@ def show():
             ax.legend()
             st.pyplot(fig)
 
-            # ✅ 오차 및 지표
-            mse = mean_squared_error(y, y_hat)
+            sse = np.sum((y - y_hat) ** 2)
             acc = r2_score(y, y_hat) * 100
 
             errors_df = pd.DataFrame({
@@ -492,7 +522,7 @@ def show():
 
             col1, col2 = st.columns(2)
             with col1:
-                st.metric("📐 평균제곱오차 (MSE)", f"{mse:.3f}")
+                st.metric("🔢 오차제곱합 (SSE)", f"{sse:.3f}")
             with col2:
                 st.metric("🎯 정확도 (R²)", f"{acc:.1f}%")
 
@@ -544,7 +574,7 @@ def show():
             font-weight: bold;
             color: #0d47a1;
             ">
-            ✍️ 실습
+            💡 생각 공작소
         </div>
         """, unsafe_allow_html=True)
         seq_text = st.text_input("수열 입력 (쉼표로 구분)", value="2,4,8,16,32", key="dl_seq")
@@ -577,7 +607,6 @@ def show():
             acc_dl = r2_score(y, y_pred_dl) * 100
 
             st.info("👉 딥러닝은 충분한 학습(Epoch)과 적절한 은닉층 뉴런 수를 설정해야 성능이 향상됩니다!")
-            st.divider()
             # ----- 📊 시각화 -----
             fig, ax = plt.subplots()
             ax.scatter(x, y, color="#1976D2", s=45, label="실제값", zorder=3)
@@ -593,12 +622,10 @@ def show():
             st.pyplot(fig)
 
             # ----- 📐 지표 -----
-            c1, c2, c3 = st.columns(3)
+            c1, c2 = st.columns(2)
             with c1:
                 st.metric("🔢 SSE (오차 합)", f"{sse_dl:.3f}")
-            with c2:
-                st.metric("📐 MSE (평균제곱오차)", f"{mse_dl:.3f}")
-            with c3:
+            with c2:            
                 st.metric("🎯 정확도 (R²)", f"{acc_dl:.1f}%")
 
             # ----- 📋 테이블 -----
@@ -619,9 +646,7 @@ def show():
 
 
     with tabs[4]:
-        st.markdown("""
-        ### 🔮 AI의 예측 원리  
-
+        st.markdown(""" 
         머신러닝은 단순히 데이터를 외우는 것이 아니라,  입력값(X)과 출력값(Y)의 관계를 **수학적 함수(모델)**로 학습합니다.  
         예를 들어,
         - 입력 데이터: `X = 1, 2, 3, 4, 5`  
@@ -648,7 +673,7 @@ def show():
             font-weight: bold;
             color: #0d47a1;
             ">
-            ✍️ 실습
+            🔮 생각 공작소
         </div>
         """, unsafe_allow_html=True)
         # -------------------
@@ -733,7 +758,6 @@ def show():
             # -------------------
             # 시각화
             # -------------------
-            st.subheader("📊 시각화 (실제값 vs 예측)")
             col1, col2, col3 = st.columns(3)
             with col1: show_data = st.checkbox("입력 데이터", value=True, key="show_data_ml")
             with col2: show_fit = st.checkbox("머신러닝 곡선", value=True, key="show_fit_ml")

@@ -138,8 +138,6 @@ def show():
     st.subheader("수열: 등차수열")
     st.write("등차수열을 파이썬 코드로 직접 구현해 봅니다.")
     st.divider()
-
-    st.subheader("🎥 오늘의 수업 영상")
     st.video("https://youtu.be/D17z97cYUxw")
     st.subheader("📌 학습 목표")
     st.write("""
@@ -183,9 +181,6 @@ def show():
 
             # 결과 표시
             st.write(f"👉 생성된 수열: {y_values}")
-
-            st.subheader("📊 수열 시각화")
-
             fig, ax = plt.subplots(figsize=(7, 5))
 
             # 점 + 선

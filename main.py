@@ -131,7 +131,6 @@ module = __import__(modules[st.session_state.day])
 module.show()
 
 # 이전 및 다음 버튼 (하단)
-st.markdown("---")
 col1, col_blank, col3 = st.columns([1, 4, 1])
 with col1:
     st.button("◀️ 이전", on_click=go_prev)
