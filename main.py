@@ -87,7 +87,7 @@ st.markdown(
 
 # 드롭다운 메뉴 및 모듈 실행
 
-days = ["1Day", "2Day", "3Day", "4Day", "5Day", "6Day", "7Day (AI Prediction Simulator)"]
+days = ["1Day", "2Day", "3Day", "4Day", "5Day", "6Day", "7Day (AI Prediction Studio)"]
 modules = {
     "1Day": "data1",
     "2Day": "data2",
@@ -95,7 +95,7 @@ modules = {
     "4Day": "data4",
     "5Day": "data5",
     "6Day": "data6",
-    "7Day (AI Prediction Simulator)": "data7"
+    "7Day (AI Prediction Studio)": "data7"
 }
 
 if 'day' not in st.session_state:

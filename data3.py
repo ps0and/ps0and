@@ -4,12 +4,24 @@ from fpdf import FPDF
 from datetime import datetime
 import numpy as np
 import matplotlib.pyplot as plt
+import matplotlib as mpl
+import matplotlib.font_manager as fm
 import tempfile
 import pandas as pd
 import io
 import sys
 import os
 
+# ---------- 한글 폰트 설정 ----------
+try:
+    font_path = os.path.join(os.path.dirname(__file__), "font", "NanumGothic.ttf")
+    fm.fontManager.addfont(font_path)  # 🔹 폰트 등록
+    font_name = fm.FontProperties(fname=font_path).get_name()
+    mpl.rc('font', family=font_name)    # 🔹 그래프 기본 폰트 변경
+    mpl.rc('axes', unicode_minus=False) # 🔹 마이너스 깨짐 방지
+except Exception as e:
+    st.warning(f"⚠️ 한글 폰트 로드 실패: {e}. 기본 폰트로 진행합니다.")
+    
 # 코드 실행 함수
 def code_runner(code_input):
     output_buffer = io.StringIO()

@@ -370,7 +370,7 @@ def create_pdf(student_info, analysis, interpretation, comparison_df, errors_df,
 # 메인 화면
 def show():
     st.header("🗓️ Day 7")
-    st.subheader("인공지능 수열 예측 시뮬레이터")
+    st.subheader("AI 예측 스튜디오")
     st.write("AI를 이용해서 수열 또는 실생활 데이터를 예측해봅시다.")
     st.divider()
     st.video("https://youtu.be/Tp0jHWXCbJA")
@@ -383,7 +383,7 @@ def show():
     tabs = st.tabs([
         "1️⃣ 데이터 수집",
         "2️⃣ 데이터 입력",
-        "3️⃣ 머신러닝 VS 딥러닝",
+        "3️⃣ AI 모델 만들기",
         "4️⃣ 예측 및 시각화",
         "5️⃣ 결과 분석"
     ])
@@ -715,6 +715,8 @@ def show():
 
 
     with tabs[3]:
+        st.subheader("4️⃣예측 및 시각화")
+
         st.markdown(pretty_title("🔍 예측값 비교", "#fce4ec", "#f8bbd0"), unsafe_allow_html=True)
 
         col_left, col_right = st.columns(2)
