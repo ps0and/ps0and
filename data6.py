@@ -294,7 +294,7 @@ def show():
     st.subheader("📌 학습 목표")
     st.write("""
     - 수학적 사고와 인공지능적 사고의 차이를 설명할 수 있다.
-    - 회귀와 딥러닝의 기본 원리 및 학습 과정을 이해한다.
+    - 회귀와 딥러닝의 기본 원리 및 학습 과정을 이해할 수 있다.
     """)
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
     tabs = st.tabs([
