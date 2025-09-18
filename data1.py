@@ -125,8 +125,8 @@ def show():
         - 문자열: 메일 제목, 메시지 내용 등 따옴표('')로 감싸서 입력 Ex.```'Hello World'```
         - 숫자열: 물건의 가격, 학생의 성적 Ex. ```52, 12```
         - 불: 친구의 로그인 상태 Ex. ```True, False```""")
-        st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
-
+        st.divider()
+        
         st.subheader("ℹ️ 출력: print() 함수")
         st.write("""          
         - ```print()``` 함수의 괄호 안에 출력하고 싶은 내용을 적습니다.

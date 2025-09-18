@@ -500,6 +500,8 @@ def show():
                 ax.plot([xi, xi], [yi, ypi], "--", color="red", linewidth=1, alpha=0.7,
                         label="편차" if xi==x[0,0] else "")
             ax.set_title(f"다항 회귀 (차수={degree}, Epoch={epochs})", fontsize=13, fontweight="bold")
+            ax.set_xlabel("항 번호 (x)")
+            ax.set_ylabel("값 (y)")
             ax.legend()
             st.pyplot(fig)
 
@@ -647,13 +649,12 @@ def show():
 
     with tabs[4]:
         st.markdown(""" 
-        머신러닝은 단순히 데이터를 외우는 것이 아니라,  입력값(X)과 출력값(Y)의 관계를 **수학적 함수(모델)**로 학습합니다.  
+        머신러닝은 단순히 데이터를 외우는 것이 아니라,  입력값(X)과 출력값(Y)의 관계를 수학적 함수(모델)로 학습합니다.  
         예를 들어,
         - 입력 데이터: `X = 1, 2, 3, 4, 5`  
         - 출력 데이터: `Y = 2, 4, 6, 8, 10`  
         
-        머신러닝은 “$y = 2x$”라는 규칙을 찾아냅니다.  
-        이후 새로운 값 $x = 6$이 들어오면,  학습한 함수를 이용해 **$y = 12$** 라고 예측할 수 있습니다.  
+        머신러닝은 “$y = 2x$”라는 규칙을 찾아냅니다. 이후 새로운 값 $x = 6$이 들어오면,  학습한 함수를 이용해 **$y = 12$** 라고 예측할 수 있습니다.  
         즉, 머신러닝의 예측은 **과거 데이터를 기반으로 수학적 규칙을 학습한 후, 새로운 입력값에 대해 출력값을 계산**하는 과정입니다.  
         """)
         st.success("""
@@ -799,8 +800,8 @@ def show():
                 )
 
             ax.set_title(f"머신러닝 예측 (차수={degree})", fontsize=15, fontweight='bold', color='#1976d2', pad=15)
-            ax.set_xlabel("X", fontsize=13, fontweight='bold')
-            ax.set_ylabel("Y", fontsize=13, fontweight='bold')
+            ax.set_xlabel("항 번호 (x)")
+            ax.set_ylabel("값 (y)")
             ax.grid(alpha=0.25)
 
             ax.legend(fontsize=10, frameon=True, fancybox=True, shadow=True)
@@ -842,7 +843,7 @@ def show():
                     file_name=f"AI_탐구보고서_{student_name}.pdf",
                     mime="application/pdf"
                 )
-
+        st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
 if __name__ == "__main__":
     show()

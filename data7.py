@@ -376,7 +376,7 @@ def show():
     st.video("https://youtu.be/Tp0jHWXCbJA")
     st.subheader("📌 학습 목표")
     st.markdown("""
-    - 머신러닝과 딥러닝의 예측값과 정확도를 비교 분석한다.
+    - 머신러닝과 딥러닝의 예측값과 정확도를 비교 분석할 수 있다.
     - AI 모델로 새로운 데이터를 예측할 수 있다.
     """)
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
@@ -918,9 +918,9 @@ def show():
 
         plt.tight_layout()
         st.pyplot(fig)
-        st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
         st.subheader("📝 데이터 분석 및 예측 결과 작성")
         analysis_text = st.text_area("데이터 분석 및 예측 결과를 작성하세요.", key="analysis")
+        st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
 
 
         

@@ -171,10 +171,10 @@ def show():
         st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
    
     with tabs[2]:
-        st.subheader("ℹ️ 알고리즘적 사고")
+        st.subheader("🗂️ 알고리즘적 사고")
         st.info("""
-        알고리즘적 사고란 수학 문제를 풀기 위해 문제를 작은 단계로 나누고, 그 단계를 차례대로 연결해 해결 방법을 만드는 생각 방법이에요. 문제를 입력(문제 조건), 출력(구하려는 답), 제약(지켜야 할 규칙)으로 나눈 뒤, 그 과정을 코드처럼 차례대로 설계하고 결과가 맞는지 확인해요. 이렇게 하면 단순히 답만 아는 것이 아니라, 수학이 어떤 구조와 과정을 통해 작동하는지 깊이 이해할 수 있어요.\n
-        1️⃣ 문제 분해 : 문제를 입력·출력·규칙으로 나누어 핵심을 정리한다.\n
+        알고리즘적 사고란 문제 해결을 위해 문제를 작은 단계로 나누고, 그 단계를 차례대로 연결해 해결 방법을 만드는 생각 방법이에요. 문제를 입력(문제 조건), 출력(구하려는 답), 제약(지켜야 할 규칙)으로 나눈 뒤, 그 과정을 코드로 차례대로 설계하고 결과가 맞는지 확인해요. 이러한 알고리즘적 사고를 통해 수학 문제를 해결하면 단순히 답만 아는 것이 아니라, 수학이 어떤 구조와 과정을 통해 작동하는지 깊이 이해할 수 있어요.\n
+        1️⃣ 문제 분해 : 문제를 입력·출력·제약으로 나누어 핵심을 정리한다.\n
         2️⃣ 절차화 : 해결 과정을 단계별 순서로 설계하고 코드로 표현한다.\n
         3️⃣ 검증 및 일반화 : 결과를 확인하고, 다른 상황에도 적용되도록 확장한다.
         """)
@@ -182,8 +182,7 @@ def show():
         # 1단계: 문제 분해
         st.markdown("### 1️⃣ 문제 분해")
         st.write("""
-        - 문제에서 필요한 입력(조건)과 출력(답)을 정리하세요.  
-        - 문제를 풀기 위한 과정을 작은 단계로 나누어 보세요. 
+        - 문제에서 필요한 입력(조건)과 출력(답) 및 제약(규칙)을 정리하세요.  
         """)
         student_thoughts = st.text_area("✍️ 문제를 분해하는 과정을 직접 작성해보세요", height=100)
         st.divider()
@@ -194,7 +193,7 @@ def show():
         - 각 단계를 코드처럼 순서대로 적어 보세요.
         """)
         st.caption("아래에 알고리즘 단계를 순서대로 적어보세요 (최소 2단계, 최대 8단계).")
-        step_count = st.number_input("단계 수", min_value=2, max_value=8, value=3, step=1, key="d2_alg_step_count")
+        step_count = st.number_input("단계 수를 선택하세요.", min_value=2, max_value=8, value=3, step=1, key="d2_alg_step_count")
         alg_steps = []
         for i in range(1, step_count + 1):
             s = st.text_input(f"단계 {i}", key=f"d2_alg_step_{i}",
@@ -210,7 +209,7 @@ def show():
             # 의사코드 미리보기
             st.markdown("#### 📄 내가 설계한 코드(미리보기)")
             pseudo = "\n".join([f"{i+1}. {line}" for i, line in enumerate(alg_steps) if line.strip()])
-            st.code(pseudo or "# 여기에 단계들을 입력하세요", language="text")
+            st.code(pseudo, language="text")
         with c2:
             st.write("아래 코드 블록의 빈칸을 채워 직접 코드를 작성해보세요.")
             starter_code = (
@@ -239,6 +238,8 @@ def show():
             correct = sum(range(1, n_val+1))
             st.success(f"✅ 정답 확인: 1부터 {n_val}까지의 합 = {correct}")
         st.write("👉 실행 결과와 정답을 비교해보며 코드를 점검해보세요.")
+        st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
+
     with tabs[3]:
         st.markdown("##### 🌈 :rainbow[[수준별 문제]] 조건문과 반복문 실습")
 
