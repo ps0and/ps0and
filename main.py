@@ -87,15 +87,16 @@ st.markdown(
 
 # 드롭다운 메뉴 및 모듈 실행
 
-days = ["1Day", "2Day", "3Day", "4Day", "5Day", "6Day", "7Day (AI Prediction Studio)"]
+days = ["1Day - 🛠️파이썬 기초 배우기(자료형,리스트)", "2Day - 🛠️파이썬 기초 배우기(조건문&반복문, 알고리즘적 사고)", "3Day - 🔢파이썬으로 등차수열 다루기", "4Day - 🔢파이썬으로 등비수열 다루기", "5Day - 🔢파이썬으로 수열의 합 다루기", "6Day - ✨인공지능의 이해", "7Day - 🔮AI 예측 스튜디오", "Day M - 🧙‍♂️코드 마스터"]
 modules = {
-    "1Day": "data1",
-    "2Day": "data2",
-    "3Day": "data3",
-    "4Day": "data4",
-    "5Day": "data5",
-    "6Day": "data6",
-    "7Day (AI Prediction Studio)": "data7"
+    "1Day - 🛠️파이썬 기초 배우기(자료형,리스트)": "data1",
+    "2Day - 🛠️파이썬 기초 배우기(조건문&반복문, 알고리즘적 사고)": "data2",
+    "3Day - 🔢파이썬으로 등차수열 다루기": "data3",
+    "4Day - 🔢파이썬으로 등비수열 다루기": "data4",
+    "5Day - 🔢파이썬으로 수열의 합 다루기": "data5",
+    "6Day - ✨인공지능의 이해": "data6",
+    "7Day - 🔮AI 예측 스튜디오": "data7",
+    "Day M - 🧙‍♂️코드 마스터": "data0",
 }
 
 if 'day' not in st.session_state:

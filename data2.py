@@ -3,7 +3,6 @@ from streamlit_ace import st_ace
 import io
 import sys
 
-# 코드 실행 함수
 def code_runner(code_input):
     output_buffer = io.StringIO()
     result = ""
@@ -20,7 +19,6 @@ def code_runner(code_input):
         sys.stdout = sys.__stdout__
     return result, status
 
-# 출력 표시 함수
 def display_output(result, status):
     if status == "success":
         st.markdown(f"```bash\n{result}\n```")
@@ -31,7 +29,6 @@ def display_output(result, status):
             unsafe_allow_html=True
         )
 
-# 코드 블록 (좌우형)
 def code_block_columns(problem_number, starter_code, prefix=""):
     key_prefix = f"{prefix}{problem_number}"
     c1, c2 = st.columns(2)
@@ -51,7 +48,6 @@ def code_block_columns(problem_number, starter_code, prefix=""):
             result, status = code_runner(code_input)
             display_output(result, status)
 
-# 코드 블록 (상하형)
 def code_block_rows(problem_number, starter_code, prefix=""):
     key_prefix = f"{prefix}{problem_number}"
     st.markdown("###### 📥 코드 입력")
@@ -68,11 +64,10 @@ def code_block_rows(problem_number, starter_code, prefix=""):
         result, status = code_runner(code_input)
         display_output(result, status)
 
-
 # ✅ 메인 화면
 def show():
     st.header("🗓️ 2Day")
-    st.subheader("파이썬 기초: 조건문, 반복문")
+    st.subheader("파이썬 기초 배우기(조건문&반복문, 알고리즘적 사고)")
     st.write("수학적 개념을 컴퓨터에 정확히 전달하려면 `if`,` for` 같은 제어문을 이해해 원하는 논리 흐름을 코드로 구현할 수 있어야 합니다. 탄탄한 문법 이해가 실습의 핵심입니다.")
     st.video("https://youtu.be/7vXkAxtBb2w")
     st.subheader("📌 학습 목표")
@@ -81,7 +76,6 @@ def show():
     - 반복문(for)을 사용하여 반복적 연산과 누적 계산을 수행할 수 있다.
     - 수학 문제를 해결할 때 필요한 과정을 단계별로 정의하고, 이를 알고리즘적 사고로 표현할 수 있다
     """)
-
     st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
     tabs = st.tabs([
         "1️⃣ 조건문",
@@ -89,6 +83,7 @@ def show():
         "3️⃣ 알고리즘적 사고",
         "4️⃣ 수준별 문제",
     ])
+
     with tabs[0]:
         st.subheader("ℹ️ 조건문 if/else")
         st.write("조건문은 주어진 조건의 참·거짓에 따라 서로 다른 코드 블록을 실행하도록 제어하는 구문")
@@ -99,7 +94,6 @@ def show():
             조건이 False일 때 실행할 코드
         """)
         st.image("image/data2_img1.png")
-
         st.markdown("""###### 💻 :blue[[예제 1]] 조건문을 사용해 `a > b`인 경우 메시지를 출력해보세요""")
         st.code("""
         a = 10
@@ -110,7 +104,6 @@ def show():
             print('a는 b보다 작거나 같다')
         """)
         code_block_rows(1, "a = 10\nb = 3\nif a > b:\n    print('a는 b보다 크다')\nelse:\n    print('a는 b보다 작거나 같다')", prefix="d2_")
-
         st.markdown("""###### 💻 :blue[[문제 1]]  `num`이 짝수이면 `num은 짝수` 홀수이면 `num은 홀수`가 출력되도록 코드를 작성하세요.""")
         with st.expander("💡 힌트 보기"):
             st.markdown("짝수는 `num % 2 == 0`을 활용해보세요.")
@@ -140,21 +133,18 @@ def show():
             print(i)
         # 출력:1 2 3 4       
         """)
-
         st.markdown("""###### 💻 :blue[[예제 2]] 1부터 10까지 숫자를 출력하는 코드를 작성하세요""")
         st.code("""
         for i in range(1, 11):
             print(i)
         """)
         code_block_columns(3, "for i",prefix="d2_")
-
         st.markdown("""###### 💻 :blue[[문제 2]] 1부터 5까지의 합을 구하는 코드를 작성하세요""")
         with st.expander("💡 힌트 보기"):
             st.markdown(" 1~5까지 수는 `range(1, 6)`으로 만들 수 있습니다. `total`이라는 변수를 만들어서 `for`문 안에서 `total=total + i`로 더해줍니다.""")
         with st.expander("💡 정답 보기"):
             st.markdown("""```python\ntotal = 0\nfor i in range(1, 6):\n    total = total + i # total += i \nprint('합계:', total)\n```""")
         code_block_columns(4, "total = 0 #초기값 설정\nfor i \n\nprint('합계:', total)", prefix="d2_")
-        
         st.markdown("###### 💻 :blue[[문제 3]] 1부터 100 사이의 짝수만 리스트에 담고 출력해보세요")
         with st.expander("💡 힌트 보기"):
             st.markdown("짝수는 `i % 2 == 0`을 활용해보세요. `even_list.append(i)`로 리스트에 추가합니다.")
@@ -179,14 +169,12 @@ def show():
         3️⃣ 검증 및 일반화 : 결과를 확인하고, 다른 상황에도 적용되도록 확장한다.
         """)
         st.success("**문제**: 1부터 n까지의 합을 다음 알고리즘적 사고 단계로 구하시오")
-        # 1단계: 문제 분해
         st.markdown("### 1️⃣ 문제 분해")
         st.write("""
         - 문제에서 필요한 입력(조건)과 출력(답) 및 제약(규칙)을 정리하세요.  
         """)
         student_thoughts = st.text_area("✍️ 문제를 분해하는 과정을 직접 작성해보세요", height=100)
         st.divider()
-        # 2단계: 절차화
         st.markdown("### 2️⃣ 절차화")
         st.write("""
         - 문제 해결 과정을 차례대로 정리해 보세요.  
@@ -200,13 +188,9 @@ def show():
                             placeholder=f"예) total=0 으로 초기화")
             alg_steps.append(s)
         st.divider()
-
         st.markdown("### 3️⃣ 검증 및 일반화")
         c1, c2 = st.columns(2)
-
         with c1:
-
-            # 의사코드 미리보기
             st.markdown("#### 📄 내가 설계한 코드(미리보기)")
             pseudo = "\n".join([f"{i+1}. {line}" for i, line in enumerate(alg_steps) if line.strip()])
             st.code(pseudo, language="text")
@@ -223,18 +207,12 @@ def show():
                 key="alg_step2_editor"
             )
             run = st.button("▶️ 코드 실행하기", key="alg_step2_run")
-
-        # 3단계: 검증 및 일반화
-
         n_val = st.number_input("n 값을 입력하세요", min_value=1, value=5, step=1)
 
         if run:
-            # 학생 코드 실행
             result, status = code_runner(code_input)
             st.markdown("#### 📤 실행 결과")
             display_output(result, status)
-
-            # 정답 비교
             correct = sum(range(1, n_val+1))
             st.success(f"✅ 정답 확인: 1부터 {n_val}까지의 합 = {correct}")
         st.write("👉 실행 결과와 정답을 비교해보며 코드를 점검해보세요.")
@@ -242,14 +220,12 @@ def show():
 
     with tabs[3]:
         st.markdown("##### 🌈 :rainbow[[수준별 문제]] 조건문과 반복문 실습")
-
         d2_level = st.radio(
             "난이도를 선택하세요!",
             ("하", "중", "상"),
             horizontal=True,
             key="d2_level_select"
         )
-
         if d2_level == "하":
             q_title = "홀짝 판별"
             q_problem = "정수 num이 주어졌을 때 짝수면 '짝수', 홀수면 '홀수'를 출력하는 코드를 작성하세요. (num=17)"
@@ -283,12 +259,8 @@ def show():
                 "        even_list.append(i)\n"
                 "print(even_list)"
             )
-
         st.markdown(f"**[{d2_level}] {q_title}**  \n{q_problem}")
-
         with st.expander("💡 정답 코드 보기"):
             st.code(answer_code, language='python')
-
         code_block_columns("level", starter_code, prefix=f"d2_sel_{d2_level}_")
         st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
-

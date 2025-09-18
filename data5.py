@@ -12,15 +12,12 @@ import io
 import sys
 import os
 
-
-# ---------- 폰트 설정 (NanumGothic) ----------
 font_path = os.path.join(os.path.dirname(__file__), "font/NanumGothic.ttf")
-fm.fontManager.addfont(font_path)  # 🔹 폰트 등록
+fm.fontManager.addfont(font_path)  
 font_name = fm.FontProperties(fname=font_path).get_name()
-mpl.rc('font', family=font_name)    # 🔹 그래프 전체 기본 폰트 변경
-mpl.rc('axes', unicode_minus=False) # 🔹 마이너스 기호 깨짐 방지
+mpl.rc('font', family=font_name)   
+mpl.rc('axes', unicode_minus=False) 
 
-# 코드 실행 함수
 def code_runner(code_input):
     output_buffer = io.StringIO()
     try:
@@ -43,7 +40,6 @@ def display_output(result, status):
             unsafe_allow_html=True
         )
 
-# 좌우 2열 코드 작성 및 실행 블록
 def code_block_columns(problem_number, starter_code, prefix=""):
     key = f"{prefix}{problem_number}"
     c1, c2 = st.columns(2)
@@ -62,19 +58,15 @@ def code_block_columns(problem_number, starter_code, prefix=""):
             result, status = code_runner(code_input)
             display_output(result, status)
 
-# ---------- PDF 클래스 ----------
 class ThemedPDF(FPDF):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         self.alias_nb_pages()
         self.set_auto_page_break(auto=True, margin=15)
-
-        # ✅ 한글 폰트 경로 (프로젝트 내부 font 폴더에 넣어주세요)
         font_path = os.path.join(os.path.dirname(__file__), "font", "NanumGothic.ttf")
-        self.add_font("Nanum", "", font_path, uni=True)  # 유니코드 폰트 등록
-        self._font_family = "Nanum"  # 기본 폰트를 나눔고딕으로 지정
+        self.add_font("Nanum", "", font_path, uni=True) 
+        self._font_family = "Nanum"  
         self.footer_left = ""
-
         self.c_primary = (25, 118, 210)
         self.c_primary_lt = (227, 242, 253)
         self.c_border = (200, 200, 200)
@@ -114,46 +106,36 @@ class ThemedPDF(FPDF):
         self.multi_cell(0, lh, text)
         self.ln(1)
 
-# ---------- PDF 생성 함수 ----------
 def create_custom_pdf(student_info, problem_text, code, result,
                       alg_decomp="", alg_steps=None, alg_validation=""):
     pdf = ThemedPDF()
     pdf.set_font("Helvetica", '', 12)
     pdf.footer_left = f"{student_info.get('school','')} • {student_info.get('name','')}"
     pdf.add_page()
-
     pdf.h2("👤 학생 정보")
     pdf.p(f"학교: {student_info.get('school','')}")
     pdf.p(f"학번: {student_info.get('id','')}")
     pdf.p(f"이름: {student_info.get('name','')}")
     pdf.p(f"작성일: {datetime.now().strftime('%Y-%m-%d')}")
-
     pdf.h2("📝 문제 설명")
     pdf.p(problem_text if problem_text else "작성된 문제 설명 없음")
-
-    # 🔹 추가: 알고리즘적 사고
     pdf.h2("알고리즘적 사고")
     pdf.p("문제 분해:")
     pdf.p(alg_decomp)
-
     pdf.p("절차화:")
     pdf.p("\n".join([f"{i+1}. {s}" for i, s in enumerate(alg_steps or []) if s.strip()]))
-
     pdf.p("검증 및 일반화:")
     pdf.p(alg_validation)
-
     pdf.h2("💻 작성 코드")
     pdf.p(code)
-
     pdf.h2("📤 실행 결과")
     pdf.p(result)
-
     return bytes(pdf.output(dest='S'))
 
-# 메인 화면
+# ✅ 메인 화면
 def show():
     st.header("🗓️ Day 5")
-    st.subheader("수열의 합")
+    st.subheader("파이썬으로 수열의 합 다루기")
     st.write("수열의 각 항을 더한 값을 ‘수열의 합’이라 합니다. 파이썬 코드로 직접 구현해 봅시다.")
     st.divider()
     st.video("https://youtu.be/jUlKxbvfDKA")
@@ -170,6 +152,7 @@ def show():
         "4️⃣ [프로젝트] 문제 만들기",
         "5️⃣ [수준별 문제]"
     ])
+
     with tabs[0]:
         st.subheader("ℹ️ 수열의 합")
         st.write("""
@@ -183,16 +166,11 @@ def show():
         st.latex(r"S_n = \frac{n}{2}(a_1 + a_n) = \frac{n}{2}\bigl(2a_1 + (n-1)d\bigr)")
         st.write("- 예) $a_1=3$, $d=2$일 때")
         st.latex(r"S_{10} = \frac{10}{2}\bigl(2\times3 + (10-1)\times2\bigr) = 120")
-   
         st.info("""
         등차수열의 합은 **직사각형의 절반**으로 이해할 수 있습니다. 밑변이 항의 개수 $n$, 높이가 $a_1 + a_n$인 직사각형을 생각하면, 그 넓이의 절반이 바로 수열의 합이 됩니다.
         """)
         st.divider()
-
         st.subheader("📊 수열의 합 시각화")
-        # ----------------------------
-        # 사용자 입력 (3열 배치)
-        # ----------------------------
         c1, c2, c3 = st.columns(3)
         with c1:
             a1 = st.number_input("첫째 항 (a)", value=3)
@@ -200,64 +178,42 @@ def show():
             d = st.number_input("공차 (d)", value=2)
         with c3:
             n = st.number_input("항의 개수 (n)", min_value=2, max_value=50, value=6, step=1)
-
-        # 수열 생성
         terms = [a1 + i*d for i in range(n)]
         an = terms[-1]
         Sn = sum(terms)
-
-        # 공식 표시
         st.latex(rf"S_n = \frac{{n}}{{2}}(a_1 + a_n) = \frac{{{n}}}{{2}}({a1}+{an}) = {Sn}")
-
-        # ----------------------------
-        # 체크박스 (토글 기능)
-        # -------------------------                 ---
         c1, c2 = st.columns(2)
         with c1:
             show_sequence = st.checkbox("📊 수열 보기", value=True)
         with c2:
             show_sum = st.checkbox("🟧 수열의 합(직사각형) 보기", value=True)
-
-        # ----------------------------
-        # 그래프 시각화
-        # ----------------------------
         fig, ax = plt.subplots(figsize=(7,4))
-
-        # 수열 막대 표시 여부
         if show_sequence:
             ax.bar(np.arange(0, n), terms, width=1, align="edge", 
                 color="skyblue", edgecolor="black", label="수열의 항")
-
-        # 직사각형 표시 여부
         if show_sum:
             rect_x = [0, n, n, 0, 0]
             rect_y = [0, 0, a1+an, a1+an, 0]
             ax.plot(rect_x, rect_y, color="red", linestyle="--", linewidth=2)
             ax.fill_between([0, n], 0, a1+an, color="orange", alpha=0.2, label="직사각형 (합의 2배)")
             ax.plot([0, n], [0, a1+an], color="purple", linestyle="-.", linewidth=2, label="대각선 (절반)")
-            
-            # ✅ 밑변(n) 라벨
             ax.annotate(
                 f"(밑변) = n = {n}",
                 xy=(n/2, 2),
                 ha="center", va="top",
                 fontsize=11, color="black"
             )
-
-            # ✅ 높이(a1+an) 라벨
             ax.annotate(
                 f"(높이) = a+a_n ={a1+an}",
                 xy=(0.4, (a1+an)/2),
                 ha="right", va="center",
                 fontsize=11, color="black", rotation=90
             )
-        # 축 꾸미기
         ax.set_xlim(0, n)
         ax.set_ylim(0, a1+an+5)
         ax.set_xlabel("항 번호 (n)")
         ax.set_ylabel("a_n (값)")
         ax.set_title("등차수열의 합 시각화")
-
         ax.legend(loc="upper left")
         st.pyplot(fig)
         st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
@@ -268,12 +224,10 @@ def show():
         - **등비수열의 합**: 첫째 항 $a_1$, 공비 $r$, $n$항까지의 합 $S_n$는
         """)
         st.latex(r"S_n = a_1 \times \frac{r^n -1}{r-1} \quad (r \neq 1)")
-
         st.info("""
         등비수열의 합은 $S_n$ 과 $rS_n$ 을 비교해 **항들을 소거**하면서 유도합니다.  
         대부분의 항이 사라지고 $S_n(r-1) = a_1(r^n - 1)$ 이 남습니다.
         """)
-        # 입력
         c1, c2, c3 = st.columns(3)
         with c1:
             a1 = st.number_input("첫째 항 (a₁)", value=2, key="geo_a1")
@@ -281,30 +235,17 @@ def show():
             r = st.number_input("공비 (r)", value=3, key="geo_r")
         with c3:
             n = st.number_input("항의 개수 (n)", min_value=2, max_value=8, value=5, step=1, key="geo_n")
-
-        # Sₙ: a1, a1r, ..., a1r^(n-1)
         terms_Sn = [f"{a1}" if i==0 else f"{a1}·{r}^{i}" for i in range(n)]
-        # rSₙ: a1r, ..., a1r^n
         terms_rSn = [f"{a1}·{r}^{i}" for i in range(1, n+1)]
-
-        # 소거 단계 (0 ~ n-1)
         step = st.slider("소거 단계 진행", 0, n-1, 0, key="geo_step")
-
-        # 표시용 복사
         Sn_display, rSn_display = terms_Sn.copy(), terms_rSn.copy()
-
-        # 오른쪽 → 왼쪽으로 소거
         for i in range(step):
-            idx_sn = i + 1   # Sₙ의 두 번째 항부터
-            idx_rsn = i      # rSₙ의 첫 번째 항부터
-
+            idx_sn = i + 1   
+            idx_rsn = i     
             Sn_display[idx_sn] = f"\\cancel{{{Sn_display[idx_sn]}}}"
             rSn_display[idx_rsn] = f"\\cancel{{{rSn_display[idx_rsn]}}}"
-       
         st.latex(rf"S_n = {' + '.join(Sn_display)}")
         st.latex(rf"rS_n = {' + '.join(rSn_display)}")
-
-        # 메시지
         if step == 0:
             st.info("👉 아직 소거 전: 전체 항목을 보여줍니다.")
         elif step < n-1:
@@ -313,7 +254,6 @@ def show():
             st.success(rf"🎉 모든 공통항 소거 완료 → $S_n(r-1) = a_1(r^n - 1)$ → $S_n = {a1}\cdot \frac{{{r}^{n}-1}}{{{r}-1}}$")
         st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
             
-
     with tabs[2]:
         st.markdown("###### 💻 :blue[[예제 1]] 첫째 항이 `3`, 공차가 `2`인 등차수열의 첫 `10`항까지 합을 구하는 코드를 작성하세요.")
         st.code("a = 3\nd = 2\nS_n = a\nfor i in range(1,10):\n    next_val = a + i * d\n    S_n = S_n + next_val\nprint(S_n)\n")
@@ -332,9 +272,7 @@ def show():
         print(S_n)
         # 출력: 990
         """)
-            
         code_block_columns(1,"a = 2\nd = 5\nS_n = a\n# 여기에 for문을 이용해 합을 계산하세요.\n", prefix="d5_")
-
         st.markdown("###### 💻 :blue[[예제 2]] 첫째 항이 `3`, 공비가 `2`인 등비수열의 첫 `10`항까지 합을 구하는 코드를 작성하세요.")
         st.code("""\
         a = 3
@@ -345,12 +283,9 @@ def show():
             S_n = S_n + next_val
         print(S_n)
         """)
-
         st.markdown("###### 💻 :blue[[문제 2]] 첫째 항이 `2`, 공비가 `5`인 등비수열의 첫 `5`항까지 합을 구하는 코드를 작성하세요.")
-
         with st.expander("💡 힌트 보기"):
             st.markdown("각 항을 구해서 하나씩 더하는 방법입니다. `a * (r**i)`를 이용하세요.")
-
         with st.expander("💡 정답 보기"):
             st.code("""\
         a = 2
@@ -362,26 +297,19 @@ def show():
         print(S_n)
         # 출력: 1562
         """)
-
         code_block_columns(2, 
         "a = 2\nr = 5\nS_n = a\n# 여기에 for문을 이용해 합을 계산하세요.\n", prefix="d5_")
         st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
  
     with tabs[3]:
         st.markdown("##### 💻 :blue[[프로젝트]] 나만의 수열의 합 문제 만들기")
-
-        # 📝 문제 설명 입력
         student_problem = st.text_area("📝 문제 설명 입력",
                                     value=st.session_state.get("student_problem_text_d5", ""))
         st.session_state["student_problem_text_d5"] = student_problem
-
-        # 🔹 알고리즘적 사고 단계
         st.markdown("#### 🗂️알고리즘적 사고 단계")
         st.markdown("#####  1️⃣ 문제 분해")
         st.markdown("문제에 필요한 입력(조건)과 출력(답) 및 제약(규칙)을 정리하세요.")
         alg_decomp = st.text_area("✍️문제에 필요한 입력(조건)과 출력(답)을 정리하세요.",key="alg_decomp_d5")
-
-        # 2️⃣ 절차화
         st.markdown("##### 2️⃣ 절차화")
         st.markdown("문제해결 과정을 차례대로 나열하세요.")
         step_count = st.number_input("단계 수", min_value=2, max_value=8, value=3, step=1,
@@ -390,22 +318,14 @@ def show():
         for i in range(1, step_count + 1):
             step = st.text_input(f"단계 {i}", key=f"alg_step_{i}_d5")
             alg_steps.append(step)
-
-        # 3️⃣ 검증 및 일반화
         st.markdown("#####  3️⃣ 검증 및 일반화")
         st.markdown("실행 결과와 정답을 비교해보며 코드를 점검해보세요.")
-
-        # 두 열로 분리
         c1, c2 = st.columns(2)
-
         with c1:
-            # 📄 의사코드 미리보기
             st.markdown("#### 📄 내가 설계한 코드(미리보기)")
             pseudo = "\n".join([f"{i+1}. {line}" for i, line in enumerate(alg_steps) if line.strip()])
             st.code(pseudo, language="text")
-
         with c2:
-            # 💻 코드 입력
             st.markdown("#### 💻 코드 작성하기")
             user_code = st_ace(
                 value=st.session_state.get("custom_code_d5", "# 여기에 로직을 작성하세요\n"),
@@ -414,22 +334,13 @@ def show():
                 height=250,
                 key="ace_custom_d5"
             )
-            st.session_state["custom_code_d5"] = user_code  # ✅ 세션 키 수정
-
-            # ▶️ 실행 결과 확인 버튼
+            st.session_state["custom_code_d5"] = user_code 
             if st.button("▶️ 실행 결과 확인", key="run_d5"):
                 result, status = code_runner(user_code)
                 display_output(result, status)
-
-                # 실행 결과를 세션에 저장
                 st.session_state["last_result"] = result
                 st.session_state["last_status"] = status
-
-
         alg_validation = st.text_area("✍️실행 결과를 검증하고 일반화하는 방법을 서술하세요.",key="alg_validation_d5")
-
-
-        # 학생 정보 입력
         col1, col2, col3 = st.columns([2, 1, 1])
         with col1:
             school = st.text_input("학교명", value=st.session_state.get("pdf_school_d5", ""), key="pdf_school_d5")
@@ -439,8 +350,6 @@ def show():
             student_name = st.text_input("이름", value=st.session_state.get("pdf_name_d5", ""), key="pdf_name_d5")
 
         student_info = {"school": school, "id": student_id, "name": student_name}
-
-        # 📥 PDF 저장 버튼
         if st.button("📥 PDF 저장하기", key="save_pdf_d5"):
             result = st.session_state.get("last_result", "실행 결과 없음")
             pdf_bytes = create_custom_pdf(student_info, student_problem, user_code, result,
@@ -451,7 +360,6 @@ def show():
                 file_name=f"Day5_Report_{student_name}.pdf",
                 mime="application/pdf"
             )
-
         st.markdown(
         """
         <style>
@@ -491,14 +399,12 @@ def show():
 
     with tabs[4]:
         st.markdown("##### 🌈 :rainbow[[수준별 문제]] 수열의 합 도전")
-
         sum_level = st.radio(
             "난이도를 선택하세요!",
             ("하", "중", "상"),
             horizontal=True,
             key="d5_sum_level"
         )
-
         if sum_level == "하":
             q_title = "등차수열의 합"
             q_problem = "초항이 1, 공차가 3인 등차수열의 첫 6항까지의 합을 구하세요."
@@ -539,7 +445,7 @@ def show():
                 "    S_n = S_n + next_val\n"
                 "print(S_n)"
             )
-        else:  # 상
+        else:
             q_title = "등차&등비수열 합 응용"
             q_problem = (
                 "초항이 5, 공차가 2인 등차수열과 초항이 1, 공비가 3인 등비수열의 "
@@ -570,14 +476,8 @@ def show():
                 "    S2 += a2 * (r ** i)\n"
                 "print('합의 차:', abs(S1 - S2))"
             )
-
         st.markdown(f"**[{sum_level}] {q_title}**  \n{q_problem}")
-
         with st.expander("💡 정답 코드 보기"):
             st.code(answer_code, language='python')
-
         code_block_columns("level", starter_code, prefix=f"d5_sel_{sum_level}_")
         st.markdown("<hr style='border: 2px solid #2196F3;'>", unsafe_allow_html=True)
-
-if __name__ == "__main__":
-    show()
