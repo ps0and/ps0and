@@ -145,7 +145,7 @@ def show():
     st.subheader("파이썬으로 등비수열 다루기")
     st.write("등비수열을 파이썬 코드로 직접 구현해 봅니다.")
     st.divider()
-    st.video("https://youtu.be/kJPv5EkTx1E")
+    st.video("https://youtu.be/uT1fp1QQ9bg")
     st.subheader("📌 학습 목표")
     st.write("""
     - 등비수열의 일반항 개념을 이해할 수 있다.

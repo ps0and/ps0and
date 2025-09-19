@@ -147,7 +147,7 @@ def show():
     st.subheader("파이썬으로 등차수열 다루기")
     st.write("등차수열을 파이썬 코드로 직접 구현해 봅니다.")
     st.divider()
-    st.video("https://youtu.be/D17z97cYUxw")
+    st.video("https://youtu.be/fvGwS-z-7nY")
     st.subheader("📌 학습 목표")
     st.write("""
     - 등차수열의 일반항 개념을 이해할 수 있다.

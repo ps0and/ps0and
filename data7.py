@@ -302,7 +302,7 @@ def show():
     st.subheader("AI 예측 스튜디오")
     st.write("AI를 이용해서 수열 또는 실생활 데이터를 예측해봅시다.")
     st.divider()
-    st.video("https://youtu.be/Tp0jHWXCbJA")
+    st.video("https://youtu.be/GU4YUJVb_kA")
     st.subheader("📌 학습 목표")
     st.markdown("""
     - 머신러닝과 딥러닝의 예측값과 정확도를 비교 분석할 수 있다.

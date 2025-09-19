@@ -242,7 +242,7 @@ def show():
     st.subheader("인공지능의 이해")
     st.write("AI는 어떻게 생각하는지 알아 봅시다.")
     st.divider()
-    st.video("https://youtu.be/RYTRvvmHMfI")
+    st.video("https://youtu.be/G8GOswA8ntA")
     st.subheader("📌 학습 목표")
     st.write("""
     - 수학적 사고와 인공지능적 사고의 차이를 설명할 수 있다.

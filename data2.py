@@ -69,7 +69,7 @@ def show():
     st.header("🗓️ 2Day")
     st.subheader("파이썬 기초 배우기(조건문&반복문, 알고리즘적 사고)")
     st.write("수학적 개념을 컴퓨터에 정확히 전달하려면 `if`,` for` 같은 제어문을 이해해 원하는 논리 흐름을 코드로 구현할 수 있어야 합니다. 탄탄한 문법 이해가 실습의 핵심입니다.")
-    st.video("https://youtu.be/7vXkAxtBb2w")
+    st.video("https://youtu.be/ar8hbuEkdoY")
     st.subheader("📌 학습 목표")
     st.write("""
     - 조건문(if/else)을 활용하여 코드의 실행 흐름을 제어할 수 있다.

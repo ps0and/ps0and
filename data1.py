@@ -95,7 +95,7 @@ def show():
     st.subheader("파이썬 기초 배우기(자료형, 리스트)")
     st.write("수학을 코딩하기 위해서는 코딩에 대한 기본 문법을 알고 있어야 합니다.")
     st.write("코딩을 시작합니다.")
-    st.video("https://youtu.be/ix0siLVJfIE")
+    st.video("https://youtu.be/dAzwkkb8jzE")
     st.subheader("📌 학습 목표")
     st.write("""
     - 파이썬의 기본 자료형과 변수의 사용법을 익힐 수 있다.
