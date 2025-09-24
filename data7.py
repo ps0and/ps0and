@@ -540,7 +540,6 @@ def show():
             hidden1 = st.slider("1층 뉴런 수", 4, 64, 36)
             hidden2 = st.slider("2층 뉴런 수", 4, 32, 18)
             epochs = st.slider("학습 횟수", 25, 70, 50)
-            scaler = MinMaxScaler()
             scaler_x = MinMaxScaler()
             scaler_y = MinMaxScaler()
             x_scaled = scaler_x.fit_transform(x)
