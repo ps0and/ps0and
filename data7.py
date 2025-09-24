@@ -101,15 +101,14 @@ def run_poly_regression(x, y, degree):
 @st.cache_resource
 def run_deep_learning(x, y, hidden1, hidden2, epochs):
     model = Sequential([
-        Dense(hidden1, input_shape=(x.shape[1],), activation='tanh'),
-        Dense(hidden2, activation='tanh'),
-        Dense(1)
+        Dense(hidden1, input_shape=(x.shape[1],), activation='relu'), 
+        Dense(hidden2, activation='relu'),
+        Dense(1, activation='linear')  
     ])
     model.compile(optimizer=Adam(0.01), loss='mse')
-    model.fit(x, y, epochs=epochs, verbose=0, batch_size=len(x))
-    y_pred = model.predict(x).flatten()
-    latex = f"Deep Learning (1-{hidden1}-{hidden2}-1)"
-    return model, y_pred, latex
+    model.fit(x, y, epochs=epochs, verbose=0, batch_size=32)  
+    y_pred = model.predict(x)
+    return model, y_pred, f"Deep Learning (1-{hidden1}-{hidden2}-1)"
 
 class ThemedPDF(FPDF):
     def __init__(self, *args, **kwargs):
@@ -542,8 +541,14 @@ def show():
             hidden2 = st.slider("2층 뉴런 수", 4, 32, 18)
             epochs = st.slider("학습 횟수", 25, 70, 50)
             scaler = MinMaxScaler()
-            x_scaled = scaler.fit_transform(x)
-            dl_model, y_pred_dl, latex_equation_dl = run_deep_learning(x_scaled, y, hidden1, hidden2, epochs)
+            scaler_x = MinMaxScaler()
+            scaler_y = MinMaxScaler()
+            x_scaled = scaler_x.fit_transform(x)
+            y_scaled = scaler_y.fit_transform(y.reshape(-1, 1))
+            dl_model, y_pred_dl_scaled, latex_equation_dl = run_deep_learning(
+                x_scaled, y_scaled, hidden1, hidden2, epochs
+            )
+            y_pred_dl = scaler_y.inverse_transform(y_pred_dl_scaled).flatten()
             sse_dl = np.sum((y - y_pred_dl) ** 2)
             st.markdown("#### **📐 딥러닝 함수식**")
             st.latex(latex_equation_dl)
@@ -597,8 +602,9 @@ def show():
             x_next = np.array([[next_input]])
             X_next_trans = ml_poly.transform(x_next)
             pred_ml_next = ml_model.predict(X_next_trans)[0]
-            x_next_scaled = scaler.transform(x_next)
-            pred_dl_next = dl_model.predict(x_next_scaled)[0][0]
+            x_next_scaled = scaler_x.transform(x_next)
+            pred_dl_next_scaled = dl_model.predict(x_next_scaled)
+            pred_dl_next = scaler_y.inverse_transform(pred_dl_next_scaled)[0][0]
             st.info(
                 f"👉 {x_name}={next_input:.2f}에서 두 모델의 예측값을 비교해보세요."
             )
